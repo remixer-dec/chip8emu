@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Chip-8 emulator | experimental project</title>
+	<style>
+	#screen {
+		width: 50%;
+		height: 50%;
+		border: 1px solid black;
+		background: linear-gradient( 0deg, #444, #111);
+	}
+	#controls {
+		display: inline-grid;
+		grid-template-columns: 1fr 1fr 1fr 1fr;
+		grid-gap: 10px;
+		position: absolute;
+		margin: 20px;
+		width: 40%;
+		height: 40%;
+	}
+	#romloader{
+		display: block;
+	}
+	</style>
+</head>
+<body>
+	<canvas id="screen"></canvas>
+	<div id="controls">
+		<button>1</button>
+		<button>2</button>
+		<button>3</button>
+		<button>C</button>
+		<button>4</button>
+		<button>5</button>
+		<button>6</button>
+		<button>D</button>
+		<button>7</button>
+		<button>8</button>
+		<button>9</button>
+		<button>E</button>
+		<button>A</button>
+		<button>0</button>
+		<button>B</button>
+		<button>F</button>
+	</div>
+	<input id="romloader" type="file">
+	<div id="debug"></div>
+</body>
+</html>
