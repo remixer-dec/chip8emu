@@ -2,9 +2,10 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Chip-8 emulator | experimental project</title>
+	<title>Chip-8 disassembler | experimental project</title>
+	<link rel="import" href="opcode.html">
 	<style>
-	#screen {
+	#escreen {
 		width: 50%;
 		height: 50%;
 		border: 1px solid black;
@@ -17,15 +18,83 @@
 		position: absolute;
 		margin: 20px;
 		width: 40%;
-		height: 40%;
+		height: 400px;
 	}
-	#romloader{
+	#romselector{
 		display: block;
 	}
+	table td{
+		border:1px solid black;
+	}
+	.no:before{
+		content:'not implemented';
+		color:red;
+	}
+
+	.yes:before{
+		content:'ready';
+		color:#3a0;
+	}
+	#registers{
+		display: inline-block;
+		vertical-align: top;
+	}
+	#registers p{
+		display: inline-block;
+		width:30px;
+		border: 1px solid black;
+		text-align: center;
+		padding: 2px;
+		margin: 40px 4px;
+		position: relative;
+	}
+
+	#registers p::before{
+		content:attr(name);
+		text-align: center;
+		position: absolute;
+		width:0;
+		display: block;
+		top:-30px;
+		text-align: center;
+		width: 100%;
+	}
+	#registers p::after{
+		content:attr(v);
+	}
+	#rvI{
+		width: 50px !important;
+	}
+	#opwrapper{
+		max-height: 200px;
+		overflow: scroll;
+		display: inline-block;
+	}
+	#instructions{
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+	}
+	#opcodeview b{
+		float: right;
+		cursor: n-resize;
+	}
+	#opcodeview b:hover{
+		color:#844;
+	}
+	#opcodeview u:before{
+		content:attr(t);
+	}
+	#opcodeview u:hover:before{
+		content:attr(h);
+		width: 30px;
+		display: inline-block;
+		text-align: center;
+	}
 	</style>
+	<script src="https://rawcdn.githack.com/webcomponents/html-imports/de54e600e1de4b7bf05f3e2ba9f3ff964521bd71/html-imports.min.js"></script>
 </head>
 <body>
-	<canvas id="screen"></canvas>
+	<canvas id="escreen"></canvas>
 	<div id="controls">
 		<button>1</button>
 		<button>2</button>
@@ -44,7 +113,51 @@
 		<button>B</button>
 		<button>F</button>
 	</div>
-	<input id="romloader" type="file">
-	<div id="debug"></div>
+	<input id="romselector" type="file">
+	<select id="damode">
+		<option value="0">Linear</option>
+		<option value="1" selected>Executional</option>
+	</select>
+	<div id="debug">
+		<div id="instructions">
+			<span id="opwrapper">
+				<div id="opcodeview"></div>
+			</span>
+			<div id="registers">
+				<p id="rv0" name="v0" v="0"></p>
+				<p id="rv1" name="v1" v="0"></p>
+				<p id="rv2" name="v2" v="0"></p>
+				<p id="rv3" name="v3" v="0"></p>
+				<p id="rv4" name="v4" v="0"></p>
+				<p id="rv5" name="v5" v="0"></p>
+				<p id="rv6" name="v6" v="0"></p>
+				<p id="rv7" name="v7" v="0"></p>
+				<p id="rv8" name="v8" v="0"></p>
+				<p id="rv9" name="v9" v="0"></p>
+				<p id="rv10" name="vA" v="0"></p>
+				<p id="rv11" name="vB" v="0"></p>
+				<p id="rv12" name="vC" v="0"></p>
+				<p id="rv13" name="vD" v="0"></p>
+				<p id="rv14" name="vE" v="0"></p>
+				<p id="rv15" name="vF" v="0"></p>
+				<p id="rvI" name="I"  v="0"></p>
+			</div>
+		</div>
+		<div>
+			<u>v0.0.1</u>
+			This is my first attempt of recreation an emulator without looking into other people's code. Here are a lot of things that are done in wrong way and the only working ROM is MAZE
+			Also, this project is using web components and JS imports, so you need a modern browser to run it.
+		</div>
+	</div>
+	<script type="module" src="main.js">
+	</script>
+	<script>
+	setTimeout(()=>{
+		/*web components imports experiment*/
+		var post = document.querySelector('link[rel="import"]').import;
+		var article = post.querySelector('table');
+		document.body.appendChild(article.cloneNode(true))
+	},500);
+	</script>
 </body>
 </html>

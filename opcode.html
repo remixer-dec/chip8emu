@@ -1,0 +1,331 @@
+<table>
+<tbody><tr>
+<th>Opcode
+</th>
+<th>Type
+</th>
+<th>C Pseudo
+</th>
+<th>Explanation
+</th>
+<th>Status
+</th></tr>
+<tr>
+<td>0NNN
+</td>
+<td>Call
+</td>
+<td>
+</td>
+<td>Calls <a href="/wiki/RCA_1802" title="RCA 1802">RCA 1802</a> program at address NNN.  Not necessary for most ROMs.
+</td><td class="no"></td></tr>
+<tr>
+<td>00E0
+</td>
+<td>Display
+</td>
+<td>disp_clear()
+</td>
+<td>Clears the screen.
+</td><td class="yes"></td></tr>
+<tr>
+<td>00EE
+</td>
+<td>Flow
+</td>
+<td>return;
+</td>
+<td>Returns from a subroutine.
+</td><td class="no"></td></tr>
+<tr>
+<td>1NNN
+</td>
+<td>Flow
+</td>
+<td>goto NNN;
+</td>
+<td>Jumps to address NNN.
+</td><td class="yes"></td></tr>
+<tr>
+<td>2NNN
+</td>
+<td>Flow
+</td>
+<td>*(0xNNN)()
+</td>
+<td>Calls subroutine at NNN.
+</td><td class="no"></td></tr>
+<tr>
+<td>3XNN
+</td>
+<td>Cond
+</td>
+<td>if(Vx==NN)
+</td>
+<td>Skips the next instruction if VX equals NN. (Usually the next instruction is a jump to skip a code block)
+</td><td class="yes"></td></tr>
+<tr>
+<td>4XNN
+</td>
+<td>Cond
+</td>
+<td>if(Vx!=NN)
+</td>
+<td>Skips the next instruction if VX doesn't equal NN. (Usually the next instruction is a jump to skip a code block)
+</td><td class="yes"></td></tr>
+<tr>
+<td>5XY0
+</td>
+<td>Cond
+</td>
+<td>if(Vx==Vy)
+</td>
+<td>Skips the next instruction if VX equals VY. (Usually the next instruction is a jump to skip a code block)
+</td><td class="yes"></td></tr>
+<tr>
+<td>6XNN
+</td>
+<td>Const
+</td>
+<td>V<i>x</i> = NN
+</td>
+<td>Sets VX to NN.
+</td><td class="yes"></td></tr>
+<tr>
+<td>7XNN
+</td>
+<td>Const
+</td>
+<td>V<i>x</i> += NN
+</td>
+<td>Adds NN to VX. (Carry flag is not changed)
+</td><td class="yes"></td></tr>
+<tr>
+<td>8XY0
+</td>
+<td>Assign
+</td>
+<td>V<i>x</i>=Vy
+</td>
+<td>Sets VX to the value of VY.
+</td><td class="yes"></td></tr>
+<tr>
+<td>8XY1
+</td>
+<td>BitOp
+</td>
+<td>Vx=V<i>x</i>|V<i>y</i>
+</td>
+<td>Sets VX to VX <a href="/wiki/Logical_disjunction" title="Logical disjunction">or</a> VY. (Bitwise OR operation)
+</td><td class="yes"></td></tr>
+<tr>
+<td>8XY2
+</td>
+<td>BitOp
+</td>
+<td>Vx=V<i>x&amp;</i>V<i>y</i>
+</td>
+<td>Sets VX to VX <a href="/wiki/Logical_conjunction" title="Logical conjunction">and</a> VY.  (Bitwise AND operation)
+</td><td class="yes"></td></tr>
+<tr>
+<td>8XY3
+</td>
+<td>BitOp
+</td>
+<td>Vx=Vx^Vy
+</td>
+<td>Sets VX to VX <a href="/wiki/Xor" class="mw-redirect" title="Xor">xor</a> VY.
+</td><td class="yes"></td></tr>
+<tr>
+<td>8XY4
+</td>
+<td>Math
+</td>
+<td>Vx += Vy
+</td>
+<td>Adds VY to VX. VF is set to 1 when there's a carry, and to 0 when there isn't.
+</td><td class="yes"></td></tr>
+<tr>
+<td>8XY5
+</td>
+<td>Math
+</td>
+<td>Vx -= Vy
+</td>
+<td>VY is subtracted from VX. VF is set to 0 when there's a borrow, and 1 when there isn't.
+</td><td class="maybe"></td></tr>
+<tr>
+<td>8XY6
+</td>
+<td>BitOp
+</td>
+<td>Vx&gt;&gt;=1
+</td>
+<td>Stores the least significant bit of VX in VF and then shifts VX to the right by 1.<sup id="cite_ref-2" class="reference"><a href="#cite_note-2">&#91;2&#93;</a></sup>
+</td><td class="yes"></td></tr>
+<tr>
+<td>8XY7
+</td>
+<td>Math
+</td>
+<td>Vx=Vy-Vx
+</td>
+<td>Sets VX to VY minus VX. VF is set to 0 when there's a borrow, and 1 when there isn't.
+</td><td class="yes"></td></tr>
+<tr>
+<td>8XYE
+</td>
+<td>BitOp
+</td>
+<td>Vx&lt;&lt;=1
+</td>
+<td>Stores the most significant bit of VX in VF and then shifts VX to the left by 1.<sup id="cite_ref-3" class="reference"><a href="#cite_note-3">&#91;3&#93;</a></sup>
+</td><td class="yes"></td></tr>
+<tr>
+<td>9XY0
+</td>
+<td>Cond
+</td>
+<td>if(Vx!=Vy)
+</td>
+<td>Skips the next instruction if VX doesn't equal VY. (Usually the next instruction is a jump to skip a code block)
+</td><td class="yes"></td></tr>
+<tr>
+<td>ANNN
+</td>
+<td>MEM
+</td>
+<td>I = NNN
+</td>
+<td>Sets I to the address NNN.
+</td><td class="yes"></td></tr>
+<tr>
+<td>BNNN
+</td>
+<td>Flow
+</td>
+<td>PC=V0+NNN
+</td>
+<td>Jumps to the address NNN plus V0.
+</td><td class="yes"></td></tr>
+<tr>
+<td>CXNN
+</td>
+<td>Rand
+</td>
+<td>Vx=rand()&amp;NN
+</td>
+<td>Sets VX to the result of a bitwise and operation on a random number (Typically: 0 to 255) and NN.
+</td><td class="yes"></td></tr>
+<tr>
+<td>DXYN
+</td>
+<td>Disp
+</td>
+<td>draw(Vx,Vy,N)
+</td>
+<td>Draws a sprite at coordinate (VX, VY) that has a width of 8 pixels and a height of N pixels. Each row of 8 pixels is read as bit-coded starting from memory location I; I value doesn’t change after the execution of this instruction. As described above, VF is set to 1 if any screen pixels are flipped from set to unset when the sprite is drawn, and to 0 if that doesn’t happen
+</td><td class="yes"></td></tr>
+<tr>
+<td>EX9E
+</td>
+<td>KeyOp
+</td>
+<td>if(key()==Vx)
+</td>
+<td>Skips the next instruction if the key stored in VX is pressed.  (Usually the next instruction is a jump to skip a code block)
+</td><td class="no"></td></tr>
+<tr>
+<td>EXA1
+</td>
+<td>KeyOp
+</td>
+<td>if(key()!=Vx)
+</td>
+<td>Skips the next instruction if the key stored in VX isn't pressed.  (Usually the next instruction is a jump to skip a code block)
+</td><td class="no"></td></tr>
+<tr>
+<td>FX07
+</td>
+<td>Timer
+</td>
+<td>Vx = get_delay()
+</td>
+<td>Sets VX to the value of the delay timer.
+</td><td class="no"></td></tr>
+<tr>
+<td>FX0A
+</td>
+<td>KeyOp
+</td>
+<td>Vx = get_key()
+</td>
+<td>A key press is awaited, and then stored in VX. (Blocking Operation. All instruction halted until next key event)
+</td><td class="no"></td></tr>
+<tr>
+<td>FX15
+</td>
+<td>Timer
+</td>
+<td>delay_timer(Vx)
+</td>
+<td>Sets the delay timer to VX.
+</td><td class="no"></td></tr>
+<tr>
+<td>FX18
+</td>
+<td>Sound
+</td>
+<td>sound_timer(Vx)
+</td>
+<td>Sets the sound timer to VX.
+</td><td class="no"></td></tr>
+<tr>
+<td>FX1E
+</td>
+<td>MEM
+</td>
+<td>I +=Vx
+</td>
+<td>Adds VX to I.<sup id="cite_ref-onlgame_4-0" class="reference"><a href="#cite_note-onlgame-4">&#91;4&#93;</a></sup>
+</td><td class="no"></td></tr>
+<tr>
+<td>FX29
+</td>
+<td>MEM
+</td>
+<td>I=sprite_addr[Vx]
+</td>
+<td>Sets I to the location of the sprite for the character in VX. Characters 0-F (in hexadecimal) are represented by a 4x5 font.
+</td><td class="no"></td></tr>
+<tr>
+<td>FX33
+</td>
+<td>BCD
+</td>
+<td>set_BCD(Vx);
+<p>*(I+0)=BCD(3);
+</p><p>*(I+1)=BCD(2);
+</p><p>*(I+2)=BCD(1);
+</p>
+</td>
+<td>Stores the <a href="/wiki/Binary-coded_decimal" title="Binary-coded decimal">binary-coded decimal</a> representation of VX, with the most significant of three digits at the address in I, the middle digit at I plus 1, and the least significant digit at I plus 2. (In other words, take the decimal representation of VX, place the hundreds digit in memory at location in I, the tens digit at location I+1, and the ones digit at location I+2.)
+</td><td class="no"></td></tr>
+<tr>
+<td>FX55
+</td>
+<td>MEM
+</td>
+<td>reg_dump(Vx,&amp;I)
+</td>
+<td>Stores V0 to VX (including VX) in memory starting at address I. The offset from I is increased by 1 for each value written, but I itself is left unmodified.
+</td><td class="no"></td></tr>
+<tr>
+<td>FX65
+</td>
+<td>MEM
+</td>
+<td>reg_load(Vx,&amp;I)
+</td>
+<td>Fills V0 to VX (including VX) with values from memory starting at address I. The offset from I is increased by 1 for each value written, but I itself is left unmodified.
+</td><td class="no"></td></tr></tbody></table>
