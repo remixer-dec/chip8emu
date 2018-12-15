@@ -90,6 +90,12 @@
 		display: inline-block;
 		text-align: center;
 	}
+	#opcodeview{
+		font-family: monospace;
+	}
+	#opcodeview div:last-child{
+		background: #A7B9B3;
+	}
 	</style>
 	<script src="https://rawcdn.githack.com/webcomponents/html-imports/de54e600e1de4b7bf05f3e2ba9f3ff964521bd71/html-imports.min.js"></script>
 </head>
@@ -114,10 +120,15 @@
 		<button>F</button>
 	</div>
 	<input id="romselector" type="file">
-	<select id="damode">
+	<select id="damodecfg">
 		<option value="0">Linear</option>
 		<option value="1" selected>Executional</option>
 	</select>
+	<select id="exmodecfg">
+		<option value="0">Live-view</option>
+		<option value="1" selected>Pre-render</option>
+	</select>
+	<button id="stopemu">STOP</button>
 	<div id="debug">
 		<div id="instructions">
 			<span id="opwrapper">
@@ -144,6 +155,10 @@
 			</div>
 		</div>
 		<div>
+			<u>v0.0.2</u>
+			Every string to number convertion (except debugger) has been re-implemented as number only.
+			New rendering engine, draws a full frame instead of drawing every single pixel<br>
+			A lot of ROMs are loadable now.
 			<u>v0.0.1</u>
 			This is my first attempt of recreation an emulator without looking into other people's code. Here are a lot of things that are done in wrong way and the only working ROM is MAZE
 			Also, this project is using web components and JS imports, so you need a modern browser to run it.

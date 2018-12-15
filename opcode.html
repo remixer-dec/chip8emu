@@ -17,7 +17,7 @@
 </td>
 <td>
 </td>
-<td>Calls <a href="/wiki/RCA_1802" title="RCA 1802">RCA 1802</a> program at address NNN.  Not necessary for most ROMs.
+<td>Calls RCA 1802 program at address NNN.  Not necessary for most ROMs.
 </td><td class="no"></td></tr>
 <tr>
 <td>00E0
@@ -116,7 +116,7 @@
 </td>
 <td>Vx=V<i>x</i>|V<i>y</i>
 </td>
-<td>Sets VX to VX <a href="/wiki/Logical_disjunction" title="Logical disjunction">or</a> VY. (Bitwise OR operation)
+<td>Sets VX to VX or VY. (Bitwise OR operation)
 </td><td class="yes"></td></tr>
 <tr>
 <td>8XY2
@@ -125,7 +125,7 @@
 </td>
 <td>Vx=V<i>x&amp;</i>V<i>y</i>
 </td>
-<td>Sets VX to VX <a href="/wiki/Logical_conjunction" title="Logical conjunction">and</a> VY.  (Bitwise AND operation)
+<td>Sets VX to VX and VY.  (Bitwise AND operation)
 </td><td class="yes"></td></tr>
 <tr>
 <td>8XY3
@@ -134,7 +134,7 @@
 </td>
 <td>Vx=Vx^Vy
 </td>
-<td>Sets VX to VX <a href="/wiki/Xor" class="mw-redirect" title="Xor">xor</a> VY.
+<td>Sets VX to VX xor VY.
 </td><td class="yes"></td></tr>
 <tr>
 <td>8XY4
@@ -161,7 +161,7 @@
 </td>
 <td>Vx&gt;&gt;=1
 </td>
-<td>Stores the least significant bit of VX in VF and then shifts VX to the right by 1.<sup id="cite_ref-2" class="reference"><a href="#cite_note-2">&#91;2&#93;</a></sup>
+<td>Stores the least significant bit of VX in VF and then shifts VX to the right by 1.
 </td><td class="yes"></td></tr>
 <tr>
 <td>8XY7
@@ -179,7 +179,7 @@
 </td>
 <td>Vx&lt;&lt;=1
 </td>
-<td>Stores the most significant bit of VX in VF and then shifts VX to the left by 1.<sup id="cite_ref-3" class="reference"><a href="#cite_note-3">&#91;3&#93;</a></sup>
+<td>Stores the most significant bit of VX in VF and then shifts VX to the left by 1.
 </td><td class="yes"></td></tr>
 <tr>
 <td>9XY0
@@ -287,7 +287,7 @@
 </td>
 <td>I +=Vx
 </td>
-<td>Adds VX to I.<sup id="cite_ref-onlgame_4-0" class="reference"><a href="#cite_note-onlgame-4">&#91;4&#93;</a></sup>
+<td>Adds VX to I.
 </td><td class="no"></td></tr>
 <tr>
 <td>FX29
@@ -309,7 +309,7 @@
 </p><p>*(I+2)=BCD(1);
 </p>
 </td>
-<td>Stores the <a href="/wiki/Binary-coded_decimal" title="Binary-coded decimal">binary-coded decimal</a> representation of VX, with the most significant of three digits at the address in I, the middle digit at I plus 1, and the least significant digit at I plus 2. (In other words, take the decimal representation of VX, place the hundreds digit in memory at location in I, the tens digit at location I+1, and the ones digit at location I+2.)
+<td>Stores the binary-coded decimal representation of VX, with the most significant of three digits at the address in I, the middle digit at I plus 1, and the least significant digit at I plus 2. (In other words, take the decimal representation of VX, place the hundreds digit in memory at location in I, the tens digit at location I+1, and the ones digit at location I+2.)
 </td><td class="no"></td></tr>
 <tr>
 <td>FX55

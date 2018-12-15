@@ -1,4 +1,4 @@
-const registers = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+var registers = new Array(17).fill(0)
 const regZeroes = registers.slice()
 export var R = {
     setReg:function(regID, value){
@@ -15,7 +15,7 @@ export var R = {
         registers = str.split(',').map(Number);
     },
     reset:function(){
-        registers = regZeroes;
+        registers = regZeroes.slice();
     },
     visualizeState:function(regState){
         regState = regState.split(',').map(Number);
@@ -24,8 +24,6 @@ export var R = {
             if(el != l){
                 window['rv'+el].setAttribute('v', regState[el]);
             } else{
-                console.log(regState)
-                console.log(regState[16].toString(16).toUpperCase())
                 rvI.setAttribute('v', "0x"+regState[16].toString(16).toUpperCase());
             }
         }
