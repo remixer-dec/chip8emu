@@ -33,6 +33,7 @@ export var S = {
         values = Array.from(values)
         let xo = 0;//offsets
         let yo = 0;//offsets
+        let vf = 0;
         for(let line of values){
             let yc = (y + yo) *64
             let pxline = this.toBinaryArray(line)
@@ -42,12 +43,18 @@ export var S = {
                     console.log("Pixel buffer overflow!",i,yc,x,y,xo,yo,values)
                     break;
                 }
-                S.pixels[i] = S.pixels[i] ^ parseInt(pixel);
+                let prevPX = S.pixels[i];
+                let anewPX = prevPX ^ parseInt(pixel);
+                S.pixels[i] = anewPX
+                if (prevPX != anewPX){
+                    vf = 1
+                }
                 xo += 1
             }
             y += 1
             xo = 0
         }
+        return vf;
     }
 }
 window.replayPixelSate = (e) => {S.pixels = e.target.getAttribute('data-screen').split(',').map(Number); S.renderer()}

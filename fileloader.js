@@ -24,7 +24,7 @@ export function loader(){ // FileReader API callback
 			0xF0, 0x80, 0xF0, 0x80, 0xF0, // E
 			0xF0, 0x80, 0xF0, 0x80, 0x80  // F
 		]
-		let mem = new Array(2048).fill(0);
+		let mem = new Array(4096).fill(0);
 		mem.splice(0x50, fontset.length, ...fontset);
 		mem = new Uint8Array(mem)
 		for(let i = 0, l = dataView.byteLength; i < l; i++){
