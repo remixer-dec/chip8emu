@@ -46,7 +46,7 @@ export var S = {
                 let prevPX = S.pixels[i];
                 let anewPX = prevPX ^ parseInt(pixel);
                 S.pixels[i] = anewPX
-                if (prevPX != anewPX){
+                if (prevPX != anewPX && anewPX === 0){
                     vf = 1
                 }
                 xo += 1

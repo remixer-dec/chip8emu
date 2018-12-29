@@ -17,8 +17,8 @@ export var K = {
     },
     init: function(){
         for(let btn of controls.children){
-            btn.addEventListener('mousedown',e=>{K.keyPressEvent(parseInt(e.originalTarget.innerText,16))})
-            btn.addEventListener('mouseup',e=>{K.keyReleaseEvent(parseInt(e.originalTarget.innerText,16))})
+            btn.addEventListener('mousedown',e=>{K.keyPressEvent(parseInt(e.target.innerText,16))})
+            btn.addEventListener('mouseup',e=>{K.keyReleaseEvent(parseInt(e.target.innerText,16))})
         }
         window.K = K
     },

@@ -10,10 +10,11 @@ var opPerCycle = parseInt(fpscfg.value)
 var skipNext = false;
 var pauseFlag = false
 var rom = false
-damodecfg.addEventListener('change', (e) => {damode = parseInt(e.originalTarget.value)});
-exmodecfg.addEventListener('change', (e) => {exmode = parseInt(e.originalTarget.value)});
-debugcfg.addEventListener('change', (e) => {dbgmode = parseInt(e.originalTarget.value)});
-fpscfg.addEventListener('change', (e) => {opPerCycle = parseInt(e.originalTarget.value)});
+var dtimer = 0, stimer = 0;
+damodecfg.addEventListener('change', (e) => {damode = parseInt(e.target.value)});
+exmodecfg.addEventListener('change', (e) => {exmode = parseInt(e.target.value)});
+debugcfg.addEventListener('change', (e) => {dbgmode = parseInt(e.target.value)});
+fpscfg.addEventListener('change', (e) => {opPerCycle = parseInt(e.target.value)});
 
 K.init();
 
@@ -36,6 +37,12 @@ export function visualize(MEMORY){
         while(pointer < rom.length){
             let opcode = rom[pointer] << 8 | rom[pointer + 1];
             let output = '';
+            if(dtimer>0){
+                dtimer--;
+            }
+            if(stimer>0){
+                stimer--;
+            }
             if(dbgmode < 2){
                 output = getReadableInstruction(pointer, opcode);
             } else {
@@ -259,6 +266,21 @@ function opcodeExecutor(opcode){
                             K.waitForNextKey().then(nextKey=>{R.setReg(opX,nextKey);pointer+=2;pauseFlag = false})
                             pauseFlag = true
                         return ["FX0A","KeyOp",`A key press is awaited, and then stored in ${reg(opX)}. (Blocking Operation. All instruction halted until next key event) `]
+                        case 0x07:
+                            R.setReg(opX,dtimer)
+                            pointer+=2
+                            console.log(dtimer)
+                        return ["FX07","Timer",`Sets ${reg(opX)} to the value of the delay timer. `]
+                        case 0x15:
+                            dtimer = R.getReg(opX)
+                            pointer+=2
+                            console.log(dtimer)
+                        return ["FX07","Timer",`Sets the delay timer to ${reg(opX)}`]
+                        case 0x18:
+                            stimer = R.getReg(opX)
+                            pointer+=2
+                            console.log(dtimer)
+                        return ["FX07","Timer",`Sets the sound timer to ${reg(opX)}`]
                         case 0x1E:
                             R.setReg(16,R.getReg(16) + R.getReg(opX));
                             pointer+=2
