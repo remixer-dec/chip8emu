@@ -18,6 +18,7 @@ export var S = {
         this.display = escreen.getContext("2d");
         S.pixels = Array.apply(null, Array(2048)).map(Number.prototype.valueOf,0),
         window.S = S;
+        S.parseGameOver()
     },
     clear:function(){
         S.init();
@@ -55,6 +56,30 @@ export var S = {
             xo = 0
         }
         return vf;
+    },
+    gameoverstr:"0x532,1x5,0x2,1x4,0x2,1x2,0,1x2,0,1x5,0x40,1,0x6,1,0x2,1,0x2,1,0,1,0,1,0,1,0x44,1,0,\
+1x3,0x2,1,0x2,1,0x2,1,0,1,0,1,0,1,0x44,1,0x3,1,0,1x6,0,1,0x3,1,0,1x3,0x42,1,0x2,1x2,0,1,0x3,1x2,0,1,\
+0x2,1x2,0,1x2,0x43,1,0x2,1x2,0,1,0x3,1x2,0,1,0x2,1x2,0,1x2,0x43,1x5,0,1,0x3,1x2,0,1,0x2,1x2,0,1x5,\
+0x104,1x5,0,1,0x4,1,0,1x5,0,1x5,0x40,1,0x3,1,0,1,0x4,1,0,1,0x5,1,0x3,1,0x40,1,0x2,1x2,0,1,0x3,1x2,0,\
+1,0x5,1x5,0x40,1,0x2,1x2,0,1,0x3,1x2,0,1x3,0x3,1,0x2,1,0x41,1,0x2,1x2,0,1x2,0x2,1x2,0,1x2,0x4,1x2,0,\
+1x2,0x40,1,0x2,1x2,0x2,1,0x2,1,0x2,1x2,0x4,1x2,0x2,1,0x40,1x5,0x3,1x2,0x3,1x5,0,1x2,0x2,1,0x595",
+    parseGameOver(){
+        let pieces = S.gameoverstr.split(",");
+        let pixels = []
+        for(let piece of pieces){
+            if(piece.length == 1){
+                pixels.push(parseInt(piece))
+            } else {
+                let tmp = piece.split("x");
+                for(let i=0;i<tmp[1];i++){
+                    pixels.push(parseInt(tmp[0]));
+                }
+            }
+        }
+        S.gameOverArr = pixels;
+    },
+    gameover:function(){
+        S.pixels = this.gameOverArr
     }
 }
 window.replayPixelSate = (e) => {S.pixels = e.target.getAttribute('data-screen').split(',').map(Number); S.renderer()}

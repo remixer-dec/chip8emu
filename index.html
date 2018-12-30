@@ -133,6 +133,10 @@
 		<option value="1" selected>Console only</option>
 		<option value="2">No console (fastest)</option>
 	</select>
+	<select id="btnstcfg">
+		<option value="0">Button sticking: OFF</option>
+		<option value="1" selected>Button sticking: ON</option>
+	</select>
 	<select id="fpscfg">
 		<option value="1">1</option>
 		<option value="2">2</option>
@@ -146,8 +150,11 @@
 		<option value="144">144</option>
 		<option value="0">onDraw</option>
 	</select>
-
+<br>
 	<button id="stopemu">STOP</button>
+	<button id="stepbtn">STEP</button>
+	<button id="plpbtn">PLAY/PAUSE</button>
+	<button id="resetbtn">RESET</button>
 	<div id="debug">
 		<div id="instructions">
 			<span id="opwrapper">
@@ -174,6 +181,9 @@
 			</div>
 		</div>
 		<div>
+			<u>v0.0.5</u>
+			Accurate collision detection, bugfixes, partial refactoring, step-by-step mode, keyboard sticking.
+			<br>
 			<u>v0.0.4</u>
 			Added chrome support, fixed bugs, implemented timers.
 			<br>
