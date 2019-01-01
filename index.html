@@ -93,7 +93,7 @@
 	#opcodeview{
 		font-family: monospace;
 	}
-	#opcodeview div:last-child{
+	#opcodeview div:last-child, #opcodeview div:hover{
 		background: #A7B9B3;
 	}
 	</style>
@@ -125,8 +125,8 @@
 		<option value="1" selected>Executional</option>
 	</select>
 	<select id="exmodecfg">
-		<option value="0">Live-view</option>
-		<option value="1" selected>Pre-render</option>
+		<option value="0" selected>Live-view</option>
+		<option value="1">Pre-render</option>
 	</select>
 	<select id="debugcfg">
 		<option value="0">Console with states</option>
@@ -134,8 +134,8 @@
 		<option value="2">No console (fastest)</option>
 	</select>
 	<select id="btnstcfg">
-		<option value="0">Button sticking: OFF</option>
-		<option value="1" selected>Button sticking: ON</option>
+		<option value="0" selected>Button sticking: OFF</option>
+		<option value="1">Button sticking: ON</option>
 	</select>
 	<select id="fpscfg">
 		<option value="1">1</option>
@@ -146,9 +146,28 @@
 		<option value="6">6</option>
 		<option value="10">10</option>
 		<option value="16">16</option>
+		<option value="30">30</option>
 		<option value="60">60</option>
 		<option value="144">144</option>
-		<option value="0">onDraw</option>
+		<option value="1000">onDraw</option>
+		<option value="2000">onDraw x2</option>
+		<option value="3000">onDraw x3</option>
+		<option value="4000">onDraw x4</option>
+		<option value="5000">onDraw x5</option>
+		<option value="6000">onDraw x6</option>
+		<option value="7000">onDraw x7</option>
+		<option value="8000">onDraw x8</option>
+		<option value="9000">onDraw x9</option>
+		<option value="10000">onDraw x10</option>
+	</select>
+	<select id="delaycfg">
+		<option value="0" selected>No delay</option>
+		<option value="16">16ms</option>
+		<option value="33">33ms</option>
+		<option value="60">60ms</option>
+		<option value="100">100ms</option>
+		<option value="200">200ms</option>
+		<option value="500">500ms</option>
 	</select>
 <br>
 	<button id="stopemu">STOP</button>
@@ -181,6 +200,9 @@
 			</div>
 		</div>
 		<div>
+			<u>v0.0.6</u>
+			OnDraw render mode is now working, and it can take multiple drawCalls before rendering. This can decrease blinking in some games. But some other games have no-draw loops, which can freeze some browsers.
+			Fixed overflow of sum opcode, added delay configurations. 
 			<u>v0.0.5</u>
 			Accurate collision detection, bugfixes, partial refactoring, step-by-step mode, keyboard sticking.
 			<br>

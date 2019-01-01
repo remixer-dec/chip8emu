@@ -5,6 +5,7 @@ export var C = {
         this.dbgmode = parseInt(debugcfg.value)
         this.opPerCycle = parseInt(fpscfg.value)
         this.btnSticking = parseInt(btnstcfg.value)
+        this.delay = parseInt(delaycfg.value)
     },
     initEvents:function(){
         damodecfg.addEventListener('change', (e) => {C.damode = C.parseCfg(e)});
@@ -12,6 +13,7 @@ export var C = {
         debugcfg.addEventListener('change', (e) => {C.dbgmode = C.parseCfg(e)});
         fpscfg.addEventListener('change', (e) => {C.opPerCycle = C.parseCfg(e)});
         btnstcfg.addEventListener('change', (e) => {C.btnSticking = C.parseCfg(e)});
+        delaycfg.addEventListener('change', (e) => {C.delay = C.parseCfg(e)});
     },
     parseCfg:function(e){
         return parseInt(e.target.value);

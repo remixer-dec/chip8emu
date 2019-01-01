@@ -4,6 +4,7 @@ export var M = {
         this.stack = []
         this.pauseFlag = false
         this.stopFlag = false
+        this.drawFlag = 0
         this.dtimer = 0
         this.stimer = 0
         this.RAM = ram

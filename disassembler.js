@@ -68,9 +68,14 @@ export function visualize(MEMORY){
                 if(!M.pauseFlag){
                     e.next()
                 }
+                if(M.drawFlag && C.opPerCycle/1000 == M.drawFlag){
+                    M.drawFlag = 0
+                    S.renderer()
+                    break
+                }
             }
             if(!e.done && !M.stopFlag){
-                requestAnimationFrame(rafik)
+                setTimeout(requestAnimationFrame,C.delay,rafik)
             }
     }
     rafik()
@@ -125,6 +130,7 @@ function opcodeExecutor(opcode){
         default:
             switch(op0){
                 case 0x0:
+                    M.pointer+=2;
                     return ["0NNN","Call","Calls RCA 1802 programm at adress 0x"+opNNN.toString(16)]
                 case 0x1:
                     jumpTo(opNNN);
@@ -177,8 +183,9 @@ function opcodeExecutor(opcode){
                             M.pointer+=2;
                             return ["8XY3","BitOp",`Sets ${D.reg(opX)} to ${D.reg(opX)} XOR ${D.reg(opY)}`]
                         case 0x4:
-                            R.setReg(15,R.getReg(opY)>R.getReg(opX)?1:0)
-                            R.setReg(opX, R.getReg(opX) + R.getReg(opY));
+                            let sum = R.getReg(opX) + R.getReg(opY)
+                            R.setReg(15,(sum>0xFF)?1:0)
+                            R.setReg(opX, sum);
                             M.pointer+=2;
                             return ["8XY4","Math",`Sets ${D.reg(opX)} += ${D.reg(opY)}`]
                         case 0x5:
@@ -222,7 +229,11 @@ function opcodeExecutor(opcode){
                     return ["CXNN","Rand",`Sets ${D.reg(opX)} = ${RAND&opNN} e.g. random(${RAND}) & ${opNN}`]
                 case 0xD:
                     R.setReg(15,S.drawC8(R.getReg(opX), R.getReg(opY), M.RAM.slice(R.getReg(16),R.getReg(16)+opN)))
-                    S.renderer()
+                    if(C.opPerCycle < 1000){
+                        S.renderer()
+                    } else {
+                        M.drawFlag++;
+                    }
                     //console.log(M.pointer,'x',R.getReg(opX),'y',R.getReg(opY),opN,R.getReg(16),M.RAM.slice(R.getReg(16),R.getReg(16)+opN));
                     M.pointer+=2;
                     return ["DXYN","Disp",`Renders a sprite at ${D.reg(opX)} and ${D.reg(opY)} with ${opN}px of h and 8 of w from memory ${D.reg(16)}`];
