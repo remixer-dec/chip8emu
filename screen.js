@@ -12,19 +12,33 @@ export var S = {
             decimal & 1
         ]
     },
-    init:function(){
-        escreen.width = 64;
-        escreen.height = 32;
+    init:function(HD){
+        this.w = HD?640:64;
+        this.h = HD?320:32;
+        escreen.width = this.w
+        escreen.height = this.h
         this.display = escreen.getContext("2d");
-        S.pixels = Array.apply(null, Array(2048)).map(Number.prototype.valueOf,0),
-        window.S = S;
-        S.parseGameOver()
+        this.renderer = HD?this.HDrenderer:this.SDrenderer;
     },
+    cleanScreen:Array.apply(null, Array(2048)).map(Number.prototype.valueOf,0),
     clear:function(){
-        S.init();
-        S.display.fillRect(0, 0, 64, 32)
+        S.pixels = S.cleanScreen.slice(0)
     },
-    renderer:function(){
+    HDrenderer:function(){
+        let white = '#FFF'
+        let black = '#000'
+        S.display.fillStyle = black;
+        S.display.fillRect(0,0,640,320)
+        S.display.fillStyle = white;
+        for(let i=0,l=S.pixels.length;i<l;i++){
+            if(S.pixels[i]){
+                let x = i % 64 * 10
+                let y = Math.floor(i/64) * 10
+                S.display.fillRect(x,y,10,10)
+            }
+        }
+    },
+    SDrenderer:function(){
         const frame = S.display.createImageData(64,32); //x,y,w,h
         const pxls = [].concat.apply([],S.pixels.map(e=>e?[255,255,255,255]:[0,0,0,255]));
         frame.data.set(new Uint8ClampedArray(pxls));
@@ -41,7 +55,6 @@ export var S = {
             for(let pixel of pxline){
                 let i = yc + (x + xo)
                 if(i>=2048){
-                    console.log("Pixel buffer overflow!",i,yc,x,y,xo,yo,values)
                     break;
                 }
                 let prevPX = S.pixels[i];
@@ -83,3 +96,4 @@ export var S = {
     }
 }
 window.replayPixelSate = (e) => {S.pixels = e.target.getAttribute('data-screen').split(',').map(Number); S.renderer()}
+S.parseGameOver()

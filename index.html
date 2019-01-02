@@ -169,6 +169,15 @@
 		<option value="200">200ms</option>
 		<option value="500">500ms</option>
 	</select>
+	<select id="rendercfg">
+		<option value="1" selected>HD</option>
+		<option value="0">SD</option>
+	</select>
+	<select id="gameovercfg">
+		<option value="0">Last frame</option>
+		<option value="1">GameOver</option>
+		<option value="2" selected>G/O + reset</option>
+	</select>
 <br>
 	<button id="stopemu">STOP</button>
 	<button id="stepbtn">STEP</button>
@@ -200,9 +209,11 @@
 			</div>
 		</div>
 		<div>
+			<u>v0.0.7</u>
+			HD/SD renderer & gameover screen now can be choosen from configuration. Reset button now is working.
 			<u>v0.0.6</u>
 			OnDraw render mode is now working, and it can take multiple drawCalls before rendering. This can decrease blinking in some games. But some other games have no-draw loops, which can freeze some browsers.
-			Fixed overflow of sum opcode, added delay configurations. 
+			Fixed overflow of sum opcode, added delay configurations.
 			<u>v0.0.5</u>
 			Accurate collision detection, bugfixes, partial refactoring, step-by-step mode, keyboard sticking.
 			<br>

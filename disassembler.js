@@ -7,13 +7,13 @@ import {M} from './memory.js'
 
 var skipNext = false;
 C.init();
-C.initEvents();
+C.initEvents(S);
 K.init(C);
-M.initOnce();
+M.initOnce(R,S);
 D.init(R);
 export function visualize(MEMORY){
     M.init(MEMORY)
-    S.init();
+    S.init(C.renderer);
     S.clear();
     R.reset();
 
@@ -92,9 +92,15 @@ function jumpTo(addr, memorize){
             }
             M.pointer = addr;
         } else {
+            if(C.gameover){
+                S.gameover()
+                S.renderer()
+                if(C.gameover == 2){
+                    M.pauseFlag = true;
+                    return setTimeout(_=>resetbtn.click(),1000)
+                }
+            }
             M.stopFlag = true;
-            S.gameover()
-            S.renderer()
         }
     } else {
         M.pointer+=2;
@@ -261,17 +267,14 @@ function opcodeExecutor(opcode){
                         case 0x07:
                             R.setReg(opX,M.dtimer)
                             M.pointer+=2
-                            console.log(M.dtimer)
                         return ["FX07","Timer",`Sets ${D.reg(opX)} to the value of the delay timer. `]
                         case 0x15:
                             M.dtimer = R.getReg(opX)
                             M.pointer+=2
-                            console.log(M.dtimer)
                         return ["FX07","Timer",`Sets the delay timer to ${D.reg(opX)}`]
                         case 0x18:
                             M.stimer = R.getReg(opX)
                             M.pointer+=2
-                            console.log(M.dtimer)
                         return ["FX07","Timer",`Sets the sound timer to ${D.reg(opX)}`]
                         case 0x1E:
                             R.setReg(16,R.getReg(16) + R.getReg(opX));
