@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Chip-8 disassembler | experimental project</title>
+	<title>Chip-8 interactie emulator | experimental project</title>
 	<link rel="import" href="opcode.html">
 	<style>
 	#escreen {
@@ -96,10 +96,23 @@
 	#opcodeview div:last-child, #opcodeview div:hover{
 		background: #A7B9B3;
 	}
+	#beep{
+		position: fixed;
+		right: 20px;
+		top: 20px;
+		width: 20px;
+		height: 20px;
+		border: 50%;
+		background: white;
+	}
+	.activated{
+		background: green !important;
+	}
 	</style>
 	<script src="https://rawcdn.githack.com/webcomponents/html-imports/de54e600e1de4b7bf05f3e2ba9f3ff964521bd71/html-imports.min.js"></script>
 </head>
 <body>
+	<div id="beep"></div>
 	<canvas id="escreen"></canvas>
 	<div id="controls">
 		<button>1</button>
@@ -209,11 +222,16 @@
 			</div>
 		</div>
 		<div>
+			<u>v0.0.8</u>
+			Separated debug code, implemented sound timer as a diode
+			<br>
 			<u>v0.0.7</u>
 			HD/SD renderer & gameover screen now can be choosen from configuration. Reset button now is working.
+			<br>
 			<u>v0.0.6</u>
 			OnDraw render mode is now working, and it can take multiple drawCalls before rendering. This can decrease blinking in some games. But some other games have no-draw loops, which can freeze some browsers.
 			Fixed overflow of sum opcode, added delay configurations.
+			<br>
 			<u>v0.0.5</u>
 			Accurate collision detection, bugfixes, partial refactoring, step-by-step mode, keyboard sticking.
 			<br>

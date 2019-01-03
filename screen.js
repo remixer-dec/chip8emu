@@ -49,16 +49,16 @@ export var S = {
         let xo = 0;//offsets
         let yo = 0;//offsets
         let vf = 0;
-        for(let line of values){
+        for(let z=0,zl=values.length;z<zl;z++){
             let yc = (y + yo) *64
-            let pxline = this.toBinaryArray(line)
-            for(let pixel of pxline){
+            let pxline = this.toBinaryArray(values[z])
+            for(let j=0,jl=pxline.length;j<jl;j++){
                 let i = yc + (x + xo)
                 if(i>=2048){
                     break;
                 }
                 let prevPX = S.pixels[i];
-                let anewPX = prevPX ^ parseInt(pixel);
+                let anewPX = prevPX ^ parseInt(pxline[j]);
                 S.pixels[i] = anewPX
                 if (prevPX != anewPX && anewPX === 0){
                     vf = 1

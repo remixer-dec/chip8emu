@@ -10,7 +10,7 @@ C.init();
 C.initEvents(S);
 K.init(C);
 M.initOnce(R,S);
-D.init(R);
+D.init(R,C,S);
 export function visualize(MEMORY){
     M.init(MEMORY)
     S.init(C.renderer);
@@ -29,10 +29,14 @@ export function visualize(MEMORY){
                 M.dtimer--;
             }
             if(M.stimer>0){
+                beep.classList.add('activated')
                 M.stimer--;
+                if(M.stimer == 0){
+                    beep.classList.remove('activated')
+                }
             }
             if(C.dbgmode < 2){
-                output = getReadableInstruction(M.pointer, opcode);
+                output = D.getReadableInstruction(M.pointer, opcode,opcodeExecutor(opcode));
             } else {
                 opcodeExecutor(opcode);
                 if(C.exmode==0){
@@ -41,7 +45,7 @@ export function visualize(MEMORY){
                 }
             }
             i++;
-            if(i == 8290 && C.exmode == 1){
+            if(C.exmode == 1 && i == 8290){
                 output += "<h1>LOOP</h1>";
                 break;
             }
@@ -80,10 +84,6 @@ export function visualize(MEMORY){
     }
     rafik()
 }
-function getReadableInstruction(addr, instr){
-    let states = C.dbgmode == 0 ? `<b data-screen="${S.pixels}" onmouseover="replayPixelSate(event)">[S]</b><b data-state="${R.getState()}" onmouseover="replayRegState(event)">[R]</b>`:"";
-    return `<div>0x${D.adrNormalizer(addr,2)} | ${instr.toString(16)} | ${opcodeExecutor(instr)[2]} ${states}</div>`;
-}
 function jumpTo(addr, memorize){
     if(C.damode == 1){
         if(M.pointer != addr){
@@ -107,10 +107,13 @@ function jumpTo(addr, memorize){
     }
 }
 function jumpBack(){
-    M.pointer = M.stack.pop();
+    if(C.damode == 1){
+        M.pointer = M.stack.pop();
+    }
     M.pointer +=2
 }
 function opcodeExecutor(opcode){
+    let ret = false
     let op0 = opcode >> 12 & 0xF
     let opX = opcode >> 8 & 0xF
     let opY = opcode >> 4 & 0xF
@@ -120,119 +123,122 @@ function opcodeExecutor(opcode){
     if(skipNext && C.damode > 0){
         skipNext = false;
         M.pointer+=2;
-        return ["???","UNKN","*SKIPPED*"];
+        return C.dbgmode < 2?D.getOpcodeDescription(0):ret;
     }
     if(M.stepbystep){
         M.pauseFlag = true;
+    }
+    if(C.dbgmode < 2){
+        ret = D.getOpcodeDescription(opcode,op0,opNNN,opNN,opN,opX,opY)
     }
     switch(opcode){
         case 0x00E0:
             S.clear()
             M.pointer+=2
-            return ["00E0","Display","Clears the screen"]
+            return ret;
         case 0x00EE:
             jumpBack();
-            return ["00EE","Flow","Returns from a subroutine"]
+            return ret;
         default:
             switch(op0){
                 case 0x0:
                     M.pointer+=2;
-                    return ["0NNN","Call","Calls RCA 1802 programm at adress 0x"+opNNN.toString(16)]
+                    return ret;
                 case 0x1:
                     jumpTo(opNNN);
-                    return ["1NNN","Flow","Jumps to adress 0x"+opNNN.toString(16)]
+                    return ret;
                 case 0x2:
                     jumpTo(opNNN, true);
-                    return ["2NNN","Flow","Calls subroutine at 0x"+opNNN.toString(16)]
+                    return ret;
                 case 0x3:
                     if(R.getReg(opX) == opNN){
                         skipNext = true;
                     }
                     M.pointer+=2;
-                    return ["3XNN","Cond",`Skips the next instruction if ${D.reg(opX)} == ${opNN}. `]
+                    return ret;
                 case 0x4:
                     if(R.getReg(opX) != opNN){
                         skipNext = true;
                     }
                     M.pointer+=2;
-                    return ["4XNN","Cond",`Skips the next instruction if ${D.reg(opX)} != ${opNN}. `]
+                    return ret;
                 case 0x5:
                     if(R.getReg(opX) == R.getReg(opY)){
                         skipNext = true;
                     }
                     M.pointer+=2;
-                    return ["5XY0","Cond",`Skips the next instruction if ${D.reg(opX)} == ${D.reg(opY)}. `]
+                    return ret;
                 case 0x6:
                     R.setReg(opX,opNN);
                     M.pointer+=2;
-                    return ["6XNN","Const",`Sets reg${opX} = ${opNN}`]
+                    return ret;
                 case 0x7:
                     R.setReg(opX, R.getReg(opX) + opNN)
                     M.pointer+=2;
-                    return ["7XNN","Const",`Sets ${D.reg(opX)} += ${opNN}`]
+                    return ret;
                 case 0x8:
                     switch(opN){
                         case 0x0:
                             R.setReg(opX, R.getReg(opY));
                             M.pointer+=2;
-                            return ["8XY0","Assign",`Sets ${D.reg(opX)} = ${D.reg(opY)}`]
+                            return ret;
                         case 0x1:
                             R.setReg(opX, R.getReg(opX) | R.getReg(opY));
                             M.pointer+=2;
-                            return ["8XY1","BitOp",`Sets ${D.reg(opX)} to ${D.reg(opX)} OR ${D.reg(opY)}`]
+                            return ret;
                         case 0x2:
                             R.setReg(opX, R.getReg(opX) & R.getReg(opY));
                             M.pointer+=2;
-                            return ["8XY2","BitOp",`Sets ${D.reg(opX)} to ${D.reg(opX)} AND ${D.reg(opY)}`]
+                            return ret;
                         case 0x3:
                             R.setReg(opX, R.getReg(opX) ^ R.getReg(opY));
                             M.pointer+=2;
-                            return ["8XY3","BitOp",`Sets ${D.reg(opX)} to ${D.reg(opX)} XOR ${D.reg(opY)}`]
+                            return ret;
                         case 0x4:
                             let sum = R.getReg(opX) + R.getReg(opY)
                             R.setReg(15,(sum>0xFF)?1:0)
                             R.setReg(opX, sum);
                             M.pointer+=2;
-                            return ["8XY4","Math",`Sets ${D.reg(opX)} += ${D.reg(opY)}`]
+                            return ret;
                         case 0x5:
                             R.setReg(15,R.getReg(opY)>R.getReg(opX)?0:1)
                             R.setReg(opX, R.getReg(opX) - R.getReg(opY));
                             M.pointer+=2;
-                            return ["8XY5","Math",`Sets ${D.reg(opX)} -= ${D.reg(opY)}`]
+                            return ret;
                         case 0x6:
                             R.setReg(15, R.getReg(opX) & 0x1)
                             R.setReg(opX, R.getReg(opX) >> 1);
                             M.pointer+=2;
-                            return ["8XY6","BitOp",`Shifts ${D.reg(opX)} to the right by 1`]
+                            return ret;
                         case 0x7:
                             R.setReg(15,R.getReg(opX)>R.getReg(opY)?0:1)
                             R.setReg(opX, R.getReg(opY) - R.getReg(opX));
                             M.pointer+=2;
-                            return ["8XY7","Const",`Sets ${D.reg(opX)} = ${D.reg(opY)} - ${D.reg(opX)}`]
+                            return ret;
                         case 0xE:
                             R.setReg(15, R.getReg(opX) >> 7)
                             R.setReg(opX, R.getReg(opX) << 1);
                             M.pointer+=2;
-                            return ["8XYE","BitOp",`Shifts ${D.reg(opX)} to the left by 1`]
+                            return ret;
                     }
                 case 0x9:
                     if(R.getReg(opX) != R.getReg(opY)){
                         skipNext = true;
                     }
                     M.pointer+=2;
-                    return ["9XY0","Cond",`Skips the next instruction if ${D.reg(opX)} != ${D.reg(opY)}.`]
+                    return ret;
                 case 0xA:
                     R.setReg(16, opNNN);
                     M.pointer+=2;
-                    return ["ANNN","MEM",`Sets regI to adress 0x${opNNN.toString(16)}`]
+                    return ret;
                 case 0xB:
                     jumpTo(opNN + R.getReg(0));
-                    return ["BNNN","Flow",`Jumps to the adress ${opNNN.toString(16)} + ${D.reg(0)}`]
+                    return ret;
                 case 0xC:
                     let RAND = RNG();
                     R.setReg(opX, RAND & opNN);
                     M.pointer+=2;
-                    return ["CXNN","Rand",`Sets ${D.reg(opX)} = ${RAND&opNN} e.g. random(${RAND}) & ${opNN}`]
+                    return ret;
                 case 0xD:
                     R.setReg(15,S.drawC8(R.getReg(opX), R.getReg(opY), M.RAM.slice(R.getReg(16),R.getReg(16)+opN)))
                     if(C.opPerCycle < 1000){
@@ -240,9 +246,8 @@ function opcodeExecutor(opcode){
                     } else {
                         M.drawFlag++;
                     }
-                    //console.log(M.pointer,'x',R.getReg(opX),'y',R.getReg(opY),opN,R.getReg(16),M.RAM.slice(R.getReg(16),R.getReg(16)+opN));
                     M.pointer+=2;
-                    return ["DXYN","Disp",`Renders a sprite at ${D.reg(opX)} and ${D.reg(opY)} with ${opN}px of h and 8 of w from memory ${D.reg(16)}`];
+                    return ret;
                 case 0xE:
                     switch(opNN){
                         case 0x9E:
@@ -250,40 +255,40 @@ function opcodeExecutor(opcode){
                                 skipNext = true
                             }
                             M.pointer+=2
-                        return ["EX9E","KeyOp",`Skips the next instruction if the key stored in ${D.reg(opX)} is pressed.`]
+                        return ret;
                         case 0xA1:
                             if(!K.isPressed(R.getReg(opX))){
                                 skipNext = true
                             }
                             M.pointer+=2
-                        return ["EXA1","KeyOp",`Skips the next instruction if the key stored in ${D.reg(opX)} isn't pressed.`]
+                        return ret;
                     }
                 case 0xF:
                     switch (opNN) {
                         case 0x0A:
                             K.waitForNextKey().then(nextKey=>{R.setReg(opX,nextKey);M.pointer+=2;M.pauseFlag = false})
                             M.pauseFlag = true
-                        return ["FX0A","KeyOp",`A key press is awaited, and then stored in ${D.reg(opX)}. (Blocking Operation)`]
+                        return ret;
                         case 0x07:
                             R.setReg(opX,M.dtimer)
                             M.pointer+=2
-                        return ["FX07","Timer",`Sets ${D.reg(opX)} to the value of the delay timer. `]
+                        return ret;
                         case 0x15:
                             M.dtimer = R.getReg(opX)
                             M.pointer+=2
-                        return ["FX07","Timer",`Sets the delay timer to ${D.reg(opX)}`]
+                        return ret;
                         case 0x18:
                             M.stimer = R.getReg(opX)
                             M.pointer+=2
-                        return ["FX07","Timer",`Sets the sound timer to ${D.reg(opX)}`]
+                        return ret;
                         case 0x1E:
                             R.setReg(16,R.getReg(16) + R.getReg(opX));
                             M.pointer+=2
-                        return ["FX1E","MEM",`Adds ${D.reg(opX)} to ${D.reg(16)}`]
+                        return ret;
                         case 0x29:
                             R.setReg(16,0x50+R.getReg(opX)*5)
                             M.pointer+=2
-                        return ["FX1E","MEM",`Sets I to the location of the sprite for the character in VX.`]
+                        return ret;
                         case 0x33:
                             let ireg = R.getReg(16)
                             let xreg = R.getReg(opX)
@@ -292,28 +297,28 @@ function opcodeExecutor(opcode){
                             M.RAM[ireg+2] = xreg % 100 % 10 >> 0
                             //R.setReg(16,ireg+3)
                             M.pointer+=2
-                        return ["FX1E","MEM",`Sets memory at I,I+1,i+2 to VX.`]
+                        return ret;
                         case 0x55:
                             let ptr = R.getReg(16)
                             for(let u=0;u<=opX;u++){
                                 M.RAM[ptr+u] = R.getReg(u)
                             }
                             M.pointer+=2
-                        return ["FX55","MEM",`Dumps all registers from 0 to X to memory ${D.reg(16)}`]
+                        return ret;
                         case 0x65:
                             let xptr = R.getReg(16)
                             for(let u=0;u<=opX;u++){
                                 R.setReg(u,M.RAM[xptr+u])
                             }
                             M.pointer+=2
-                        return ["FX65","MEM",`Loads all registers from 0 to x from memory ${D.reg(16)}`]
+                        return ret;
                         default:
                             M.pointer+=2
-                        return ["F000","UNK","<u style='color:red'>F UNKNOWN OPCODE</u>"]
+                        return ret;
                     }
                 default:
                     M.pointer+=2;
-                    return ["F000","UNK","<u style='color:red'>UNKNOWN OPCODE</u>"]
+                    return ret;
             }
     }
 }
