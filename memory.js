@@ -12,8 +12,8 @@ export var M = {
     },
     initOnce:function(R,S){
         stopemu.addEventListener('click', (e) => {M.stopFlag = true})
-        stepbtn.addEventListener('click', (e) => {M.stepbystep = true; M.pauseFlag = false;})
-        plpbtn.addEventListener('click', (e) => {M.stepbystep = !M.stepbystep; M.pauseFlag = false;})
+        stepbtn.addEventListener('click', (e) => {M.stepbystep = true; M.pauseFlag = false})
+        plpbtn.addEventListener('click', (e) => {M.stepbystep = !M.stepbystep; M.pauseFlag = false})
         resetbtn.addEventListener('click', (e) => {R.reset();S.clear();M.init(M.RAM)})
         this.init(false)
     }

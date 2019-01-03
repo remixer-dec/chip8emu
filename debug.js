@@ -15,7 +15,11 @@ export var D = {
         return `<u t="reg${regID}" h="${this.R.getReg(regID)}"></u>`;
     },
     getReadableInstruction:function(addr, instr, opcodeData){
-        let states = this.C.dbgmode == 0 ? `<b data-screen="${this.S.pixels}" onmouseover="replayPixelSate(event)">[S]</b><b data-state="${this.R.getState()}" onmouseover="replayRegState(event)">[R]</b>`:"";
+        let rstate = this.R.getState();
+        if(this.C.regmode){
+            this.R.visualizeState(rstate)
+        }
+        let states = this.C.dbgmode == 0 ? `<b data-screen="${this.S.pixels}" onmouseover="replayPixelSate(event)">[S]</b><b data-state="${rstate}" onmouseover="replayRegState(event)">[R]</b>`:"";
         return `<div>0x${D.adrNormalizer(addr,2)} | ${instr.toString(16)} | ${opcodeData[2]} ${states}</div>`;
     },
     getOpcodeDescription:function(opcode,op0,opNNN,opNN,opN,opX,opY){

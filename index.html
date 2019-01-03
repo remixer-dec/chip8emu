@@ -2,12 +2,16 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<meta name="theme-color" content="#101010">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Chip-8 interactie emulator | experimental project</title>
 	<link rel="import" href="opcode.html">
 	<style>
+	body{
+		font-family:Roboto, sans-serif;
+	}
 	#escreen {
-		width: 50%;
-		height: 50%;
+		width: 100%;
 		border: 1px solid black;
 		background: linear-gradient( 0deg, #444, #111);
 	}
@@ -15,13 +19,7 @@
 		display: inline-grid;
 		grid-template-columns: 1fr 1fr 1fr 1fr;
 		grid-gap: 10px;
-		position: absolute;
-		margin: 20px;
-		width: 40%;
-		height: 400px;
-	}
-	#romselector{
-		display: block;
+		margin: 0 20px;
 	}
 	table td{
 		border:1px solid black;
@@ -63,11 +61,11 @@
 		content:attr(v);
 	}
 	#rvI{
-		width: 50px !important;
+		width: 46px !important;
 	}
 	#opwrapper{
 		max-height: 200px;
-		overflow: scroll;
+		overflow: auto;
 		display: inline-block;
 	}
 	#instructions{
@@ -108,96 +106,143 @@
 	.activated{
 		background: green !important;
 	}
+	#topframe{
+		position: relative;
+		display: grid;
+    	grid-template-columns: 1fr 1fr;
+		margin-bottom: 20px;
+	}
+	#controls button, #escreen {
+		background: #222;
+		border: 1px solid white;
+		color: white;
+		box-shadow: 0 1px 4px 2px rgba(0,0,0,.24);
+		border-radius: 11px;
+		outline: none;
+		transition:all .2s;
+	}
+	#controls button:active{
+		background: #111;
+		box-shadow: none;
+	}
+	@media only screen and (max-width:600px){
+		#topframe {
+	    	grid-template-columns: 1fr;
+		}
+		#controls {
+    		display: grid;
+			width: unset;
+			margin: 20px;
+			position: relative;
+			height: 200px;
+		}
+		#instructions {
+			display: grid;
+    		grid-template-columns: 1fr;
+		}
+	}
 	</style>
 	<script src="https://rawcdn.githack.com/webcomponents/html-imports/de54e600e1de4b7bf05f3e2ba9f3ff964521bd71/html-imports.min.js"></script>
 </head>
 <body>
 	<div id="beep"></div>
-	<canvas id="escreen"></canvas>
-	<div id="controls">
-		<button>1</button>
-		<button>2</button>
-		<button>3</button>
-		<button>C</button>
-		<button>4</button>
-		<button>5</button>
-		<button>6</button>
-		<button>D</button>
-		<button>7</button>
-		<button>8</button>
-		<button>9</button>
-		<button>E</button>
-		<button>A</button>
-		<button>0</button>
-		<button>B</button>
-		<button>F</button>
+	<div id="topframe">
+		<canvas id="escreen"></canvas>
+		<div id="controls">
+			<button>1</button>
+			<button>2</button>
+			<button>3</button>
+			<button>C</button>
+			<button>4</button>
+			<button>5</button>
+			<button>6</button>
+			<button>D</button>
+			<button>7</button>
+			<button>8</button>
+			<button>9</button>
+			<button>E</button>
+			<button>A</button>
+			<button>0</button>
+			<button>B</button>
+			<button>F</button>
+		</div>
 	</div>
-	<input id="romselector" type="file">
-	<select id="damodecfg">
-		<option value="0">Linear</option>
-		<option value="1" selected>Executional</option>
-	</select>
-	<select id="exmodecfg">
-		<option value="0" selected>Live-view</option>
-		<option value="1">Pre-render</option>
-	</select>
-	<select id="debugcfg">
-		<option value="0">Console with states</option>
-		<option value="1" selected>Console only</option>
-		<option value="2">No console (fastest)</option>
-	</select>
-	<select id="btnstcfg">
-		<option value="0" selected>Button sticking: OFF</option>
-		<option value="1">Button sticking: ON</option>
-	</select>
-	<select id="fpscfg">
-		<option value="1">1</option>
-		<option value="2">2</option>
-		<option value="3">3</option>
-		<option value="4">4</option>
-		<option value="5">5</option>
-		<option value="6">6</option>
-		<option value="10">10</option>
-		<option value="16">16</option>
-		<option value="30">30</option>
-		<option value="60">60</option>
-		<option value="144">144</option>
-		<option value="1000">onDraw</option>
-		<option value="2000">onDraw x2</option>
-		<option value="3000">onDraw x3</option>
-		<option value="4000">onDraw x4</option>
-		<option value="5000">onDraw x5</option>
-		<option value="6000">onDraw x6</option>
-		<option value="7000">onDraw x7</option>
-		<option value="8000">onDraw x8</option>
-		<option value="9000">onDraw x9</option>
-		<option value="10000">onDraw x10</option>
-	</select>
-	<select id="delaycfg">
-		<option value="0" selected>No delay</option>
-		<option value="16">16ms</option>
-		<option value="33">33ms</option>
-		<option value="60">60ms</option>
-		<option value="100">100ms</option>
-		<option value="200">200ms</option>
-		<option value="500">500ms</option>
-	</select>
-	<select id="rendercfg">
-		<option value="1" selected>HD</option>
-		<option value="0">SD</option>
-	</select>
-	<select id="gameovercfg">
-		<option value="0">Last frame</option>
-		<option value="1">GameOver</option>
-		<option value="2" selected>G/O + reset</option>
-	</select>
-<br>
 	<button id="stopemu">STOP</button>
 	<button id="stepbtn">STEP</button>
 	<button id="plpbtn">PLAY/PAUSE</button>
 	<button id="resetbtn">RESET</button>
+	LOAD ROM:
+	<input id="romselector" type="file"><br>
+
+<br>
 	<div id="debug">
 		<div id="instructions">
+			<select id="damodecfg">
+				<option value="0">Linear</option>
+				<option value="1" selected>Executional</option>
+			</select>
+			<select id="exmodecfg">
+				<option value="0" selected>Live-view</option>
+				<option value="1">Pre-render</option>
+			</select>
+			<select id="debugcfg">
+				<option value="0">Console with states</option>
+				<option value="1" selected>Console only</option>
+				<option value="2">No console (fastest)</option>
+			</select>
+			<select id="regcfg">
+				<option value="0">Static registers</option>
+				<option value="1">Live registers (slower)</option>
+			</select>
+			<select id="btnstcfg">
+				<option value="0" selected>Button sticking: OFF</option>
+				<option value="1">Button sticking: ON</option>
+			</select>
+			<select id="fpscfg">
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+				<option value="10">10</option>
+				<option value="16">16</option>
+				<option value="30">30</option>
+				<option value="60">60</option>
+				<option value="144">144</option>
+				<option value="1000">onDraw</option>
+				<option value="2000">onDraw x2</option>
+				<option value="3000">onDraw x3</option>
+				<option value="4000">onDraw x4</option>
+				<option value="5000">onDraw x5</option>
+				<option value="6000">onDraw x6</option>
+				<option value="7000">onDraw x7</option>
+				<option value="8000">onDraw x8</option>
+				<option value="9000">onDraw x9</option>
+				<option value="10000">onDraw x10</option>
+			</select>
+			<select id="delaycfg">
+				<option value="0" selected>No delay</option>
+				<option value="16">16ms</option>
+				<option value="33">33ms</option>
+				<option value="60">60ms</option>
+				<option value="100">100ms</option>
+				<option value="200">200ms</option>
+				<option value="500">500ms</option>
+			</select>
+			<select id="rendercfg">
+				<option value="1" selected>HD</option>
+				<option value="0">SD</option>
+			</select>
+			<select id="gameovercfg">
+				<option value="0">Last frame</option>
+				<option value="1">GameOver</option>
+				<option value="2" selected>G/O + reset</option>
+			</select>
+			<select id="kbdkfg">
+				<option value="0">All buttons</option>
+				<option value="1">Game-specific</option>
+			</select>
 			<span id="opwrapper">
 				<div id="opcodeview"></div>
 			</span>
