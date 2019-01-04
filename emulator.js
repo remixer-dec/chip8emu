@@ -16,7 +16,7 @@ export function emulate(MEMORY){
         return setTimeout(emulate,512,MEMORY)
     }
     M.init(MEMORY)
-    S.init(C.renderer);
+    S.init(C.renderer,C);
     S.clear();
     R.reset();
     CPU.init(R,C,S,M,D,K)
@@ -50,7 +50,7 @@ export function emulate(MEMORY){
             }
             i++;
             if(C.exmode == 1 && i == 8290){
-                output += "<h4>Pre-render limit reached</h4>";
+                fulloutput += "<h4>Pre-render limit reached</h4>";
                 break;
             }
 

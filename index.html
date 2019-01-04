@@ -42,6 +42,42 @@
 	</div>
 	<div id="debug">
 		<div id="instructions">
+			<label for="presetcfg"><u>Select configuration preset</u></label>
+			<select id="presetcfg">
+				<option value="0" selected>Custom</option>
+				<option value="1">Optimal performance</option>
+				<option value="2">Maximum speed</option>
+				<option value="3">Smooth gameplay</option>
+				<option value="4">Live debugging</option>
+				<option value="5">Postponed debugging</option>
+			</select>
+			<label for="romcfg"><u>Load ROM from the list</u></label>
+			<select id="romcfg">
+				<option value="0">Not selected</option>
+				<option value="1">15PUZZLE</option>
+				<option value="2">BLINKY</option>
+				<option value="3">BLITZ</option>
+				<option value="4">BRIX</option>
+				<option value="5">CONNECT4</option>
+				<option value="6">GUESS</option>
+				<option value="7">HIDDEN</option>
+				<option value="8">INVADERS</option>
+				<option value="9">KALEID</option>
+				<option value="10">MAZE</option>
+				<option value="11">MERLIN</option>
+				<option value="12">MISSILE</option>
+				<option value="13">PONG</option>
+				<option value="14">PONG2</option>
+				<option value="15">PUZZLE</option>
+				<option value="16">SYZYGY</option>
+				<option value="17">TANK</option>
+				<option value="18">TETRIS</option>
+				<option value="19">TICTAC</option>
+				<option value="20">UFO</option>
+				<option value="21">VBRIX</option>
+				<option value="22">VERS</option>
+				<option value="23">WIPEOFF</option>
+			</select>
 			<label for="damodecfg">Order of parsing</label>
 			<select id="damodecfg">
 				<option value="0">Linear</option>
@@ -114,32 +150,11 @@
 				<option value="1">Show GameOver screen</option>
 				<option value="2" selected>G/O screen + autoreset</option>
 			</select>
-			<label for="romcfg"><u>Load ROM from the list</u></label>
-			<select id="romcfg">
-				<option value="0">Not selected</option>
-				<option value="1">15PUZZLE</option>
-				<option value="2">BLINKY</option>
-				<option value="3">BLITZ</option>
-				<option value="4">BRIX</option>
-				<option value="5">CONNECT4</option>
-				<option value="6">GUESS</option>
-				<option value="7">HIDDEN</option>
-				<option value="8">INVADERS</option>
-				<option value="9">KALEID</option>
-				<option value="10">MAZE</option>
-				<option value="11">MERLIN</option>
-				<option value="12">MISSILE</option>
-				<option value="13">PONG</option>
-				<option value="14">PONG2</option>
-				<option value="15">PUZZLE</option>
-				<option value="16">SYZYGY</option>
-				<option value="17">TANK</option>
-				<option value="18">TETRIS</option>
-				<option value="19">TICTAC</option>
-				<option value="20">UFO</option>
-				<option value="21">VBRIX</option>
-				<option value="22">VERS</option>
-				<option value="23">WIPEOFF</option>
+			<label for="blinkcfg">Blink reduction strategy</label>
+			<select id="blinkcfg">
+				<option value="0">Disabled</option>
+				<option value="1">vFFrameSkip</option>
+				<option value="2">Multi-staged vFFrameSkip</option>
 			</select>
 			<span id="opwrapper">
 				<div id="opcodeview"></div>
@@ -166,6 +181,12 @@
 		</div>
 		<div>
 			<h5>Changelog</h5>
+			<u>v0.1.3</u>
+			Added blink reduction strategy, added configuration presets.
+			<br>
+			<u>v0.1.1, v0.1.2</u>
+			Bugfixes
+			<br>
 			<u>v0.1.0</u>
 			Design improvements, partial refactoring, added remote ROM loader. Fixed bugs.
 			<br>

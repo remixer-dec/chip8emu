@@ -90,12 +90,13 @@ table td {
 }
 #beep {
    position: fixed;
-   right: 20px;
-   top: 20px;
+   right: 10px;
+   bottom: 10px;
    width: 20px;
    height: 20px;
    border-radius: 50%;
    background: white;
+   z-index: 10;
 }
 .activated {
    background: green !important;

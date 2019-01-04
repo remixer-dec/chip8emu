@@ -12,9 +12,12 @@ export var S = {
             decimal & 1
         ]
     },
-    init(HD){
+    init(HD,C){
         this.w = HD?640:64;
         this.h = HD?320:32;
+        this.C = C
+        this.vfframe = 0
+        this.skipped = 0
         escreen.width = this.w
         escreen.height = this.h
         this.display = escreen.getContext("2d");
@@ -24,7 +27,23 @@ export var S = {
     clear(){
         S.pixels = S.cleanScreen.slice(0)
     },
+    antiBlinker(){
+        if(this.C.antiblink){
+            if(this.C.antiblink == 2 && this.skipped > 1 && !this.vfframe){
+                this.skipped = this.skipped == 2 ? 0 : this.skipped - 1;
+                return true
+            }
+            if(this.vfframe){
+                this.skipped++
+                return true
+            } else {
+                this.skipped = 0;
+            }
+        }
+        return false
+    },
     HDrenderer(){
+        if(S.antiBlinker()) return
         let white = '#FFF'
         let black = '#000'
         S.display.fillStyle = black;
@@ -39,6 +58,7 @@ export var S = {
         }
     },
     SDrenderer(){
+        if(S.antiBlinker()) return
         const frame = S.display.createImageData(64,32); //x,y,w,h
         const pxls = [].concat.apply([],S.pixels.map(e=>e?[255,255,255,255]:[0,0,0,255]));
         frame.data.set(new Uint8ClampedArray(pxls));
@@ -50,15 +70,16 @@ export var S = {
         let yo = 0;//offsets
         let vf = 0;
         for(let z=0,zl=values.length;z<zl;z++){
-            let yc = (y + yo) *64
+            let yc = (y + yo)
             let pxline = this.toBinaryArray(values[z])
             for(let j=0,jl=pxline.length;j<jl;j++){
-                let i = yc + (x + xo)
-                if(i>=2048){
+                let xc = x + xo
+                let i = yc *64 + xc
+                if(xc>=64||yc>=32){
                     break;
                 }
                 let prevPX = S.pixels[i];
-                let anewPX = prevPX ^ parseInt(pxline[j]);
+                let anewPX = prevPX ^ pxline[j];
                 S.pixels[i] = anewPX
                 if (prevPX != anewPX && anewPX === 0){
                     vf = 1
@@ -68,6 +89,7 @@ export var S = {
             y += 1
             xo = 0
         }
+        this.vfframe = vf
         return vf;
     },
     gameoverstr:"0x532,1x5,0x2,1x4,0x2,1x2,0,1x2,0,1x5,0x40,1,0x6,1,0x2,1,0x2,1,0,1,0,1,0,1,0x44,1,0,\
