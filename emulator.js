@@ -19,7 +19,7 @@ export function emulate(MEMORY){
     S.init(C.renderer);
     S.clear();
     R.reset();
-    CPU.init(R,C,S,M,D)
+    CPU.init(R,C,S,M,D,K)
 
     let fulloutput = "";
     let i = 0, h = 0;

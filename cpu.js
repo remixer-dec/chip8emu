@@ -1,9 +1,9 @@
-var C,S,R,M,D
+var C,S,R,M,D,K
 var skipNext = false;
 export var CPU = {
-    init(r,c,s,m,d){
+    init(r,c,s,m,d,k){
         //makes all the needed parts accessible for the CPU
-        C=c; S=s; R=r; M=m; D=d;
+        C=c; S=s; R=r; M=m; D=d; K=k;
     },
     jumpTo(addr, memorize){
         if(C.damode == 1){

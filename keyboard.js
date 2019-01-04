@@ -4,24 +4,30 @@ export var K = {
     isPressed(key){
         return this.pressed.has(key)
     },
-    keyPressEvent(key){
-        this.pressed.add(key)
-        if(this.waiter){
-            this.waiter(key);
-            this.waiter = false
-        }
-        this.lastKey = key
+    parseKey(keyEvent){
+        return parseInt(keyEvent.target.innerText,16)
     },
-    keyReleaseEvent(key){
-        this.pressed.delete(key)
+    keyPressEvent(keyEvent){
+        let key = K.parseKey(keyEvent)
+        K.pressed.add(key)
+        if(K.waiter){
+            K.waiter(key);
+            K.waiter = false
+        }
+        K.lastKey = key
+    },
+    keyReleaseEvent(keyEvent){
+        let key = K.parseKey(keyEvent)
+        K.pressed.delete(key)
     },
     init(C){
         this.C = C;
         for(let btn of controls.children){
-            btn.addEventListener('mousedown',e=>{K.keyPressEvent(parseInt(e.target.innerText,16))})
-            btn.addEventListener('mouseup',e=>{K.keyReleaseEvent(parseInt(e.target.innerText,16))})
+            btn.addEventListener('mousedown',K.keyPressEvent)
+            btn.addEventListener('mouseup',K.keyReleaseEvent)
+            btn.addEventListener('touchstart',K.keyPressEvent)
+            btn.addEventListener('touchend',K.keyReleaseEvent)
         }
-        window.K = K
     },
     waiter: false,
     waitForNextKey(){
