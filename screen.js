@@ -1,6 +1,6 @@
 export var S = {
-    z:(zz, n) => {while(zz.length < n){zz = "0" + zz} return zz},
-    toBinaryArray:(decimal) => {
+    z(zz, n){while(zz.length < n){zz = "0" + zz} return zz},
+    toBinaryArray(decimal){
     	return [
             (decimal & 128) >> 7,
             (decimal & 64) >> 6,
@@ -12,7 +12,7 @@ export var S = {
             decimal & 1
         ]
     },
-    init:function(HD){
+    init(HD){
         this.w = HD?640:64;
         this.h = HD?320:32;
         escreen.width = this.w
@@ -21,10 +21,10 @@ export var S = {
         this.renderer = HD?this.HDrenderer:this.SDrenderer;
     },
     cleanScreen:Array.apply(null, Array(2048)).map(Number.prototype.valueOf,0),
-    clear:function(){
+    clear(){
         S.pixels = S.cleanScreen.slice(0)
     },
-    HDrenderer:function(){
+    HDrenderer(){
         let white = '#FFF'
         let black = '#000'
         S.display.fillStyle = black;
@@ -38,7 +38,7 @@ export var S = {
             }
         }
     },
-    SDrenderer:function(){
+    SDrenderer(){
         const frame = S.display.createImageData(64,32); //x,y,w,h
         const pxls = [].concat.apply([],S.pixels.map(e=>e?[255,255,255,255]:[0,0,0,255]));
         frame.data.set(new Uint8ClampedArray(pxls));
@@ -91,7 +91,7 @@ export var S = {
         }
         S.gameOverArr = pixels;
     },
-    gameover:function(){
+    gameover(){
         S.pixels = this.gameOverArr
     }
 }

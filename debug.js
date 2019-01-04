@@ -1,20 +1,20 @@
 export var D = {
-    init:function(R,C,S){
+    init(R,C,S){
         this.R = R;
         this.C = C;
         this.S = S;
     },
-    adrNormalizer:function(decval, zeroes){
+    adrNormalizer(decval, zeroes){
         let q = decval.toString(16);
         while(q.length<zeroes){
             q = "0" + q;
         }
         return q.toUpperCase()
     },
-    reg:function(regID){
+    reg(regID){
         return `<u t="reg${regID}" h="${this.R.getReg(regID)}"></u>`;
     },
-    getReadableInstruction:function(addr, instr, opcodeData){
+    getReadableInstruction(addr, instr, opcodeData){
         let rstate = this.R.getState();
         if(this.C.regmode){
             this.R.visualizeState(rstate)
@@ -22,7 +22,7 @@ export var D = {
         let states = this.C.dbgmode == 0 ? `<b data-screen="${this.S.pixels}" onmouseover="replayPixelSate(event)">[S]</b><b data-state="${rstate}" onmouseover="replayRegState(event)">[R]</b>`:"";
         return `<div>0x${D.adrNormalizer(addr,2)} | ${instr.toString(16)} | ${opcodeData[2]} ${states}</div>`;
     },
-    getOpcodeDescription:function(opcode,op0,opNNN,opNN,opN,opX,opY){
+    getOpcodeDescription(opcode,op0,opNNN,opNN,opN,opX,opY){
         switch(opcode){
             case 0x0000:
                 return ["0000","SKIP","*SKIPPED*"]

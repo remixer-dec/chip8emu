@@ -1,10 +1,10 @@
 export var K = {
     pressed: new Set(),
     lastKey: 0,
-    isPressed: function(key){
+    isPressed(key){
         return this.pressed.has(key)
     },
-    keyPressEvent: function(key){
+    keyPressEvent(key){
         this.pressed.add(key)
         if(this.waiter){
             this.waiter(key);
@@ -12,10 +12,10 @@ export var K = {
         }
         this.lastKey = key
     },
-    keyReleaseEvent: function(key){
+    keyReleaseEvent(key){
         this.pressed.delete(key)
     },
-    init: function(C){
+    init(C){
         this.C = C;
         for(let btn of controls.children){
             btn.addEventListener('mousedown',e=>{K.keyPressEvent(parseInt(e.target.innerText,16))})
@@ -24,7 +24,7 @@ export var K = {
         window.K = K
     },
     waiter: false,
-    waitForNextKey: function(){
+    waitForNextKey(){
         return new Promise((rs,rj)=>{
             if(K.pressed.size > 0 && K.C.btnSticking){
                 rs(K.lastKey)
