@@ -20,7 +20,7 @@ export var D = {
             this.R.visualizeState(rstate)
         }
         let states = this.C.dbgmode == 0 ? `<b data-screen="${this.S.pixels}" onmouseover="replayPixelSate(event)">[S]</b><b data-state="${rstate}" onmouseover="replayRegState(event)">[R]</b>`:"";
-        return `<div>0x${D.adrNormalizer(addr,2)} | ${instr.toString(16)} | ${opcodeData[2]} ${states}</div>`;
+        return `<div>0x${D.adrNormalizer(addr,2)} | ${D.adrNormalizer(instr,4)} | ${opcodeData[2]} ${states}</div>`;
     },
     getOpcodeDescription(opcode,op0,opNNN,opNN,opN,opX,opY){
         switch(opcode){
@@ -45,7 +45,7 @@ export var D = {
                     case 0x5:
                         return ["5XY0","Cond",`Skips the next instruction if ${D.reg(opX)} == ${D.reg(opY)}. `]
                     case 0x6:
-                        return ["6XNN","Const",`Sets reg${opX} = ${opNN}`]
+                        return ["6XNN","Const",`Sets ${D.reg(opX)} = ${opNN}`]
                     case 0x7:
                         return ["7XNN","Const",`Sets ${D.reg(opX)} += ${opNN}`]
                     case 0x8:
