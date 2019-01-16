@@ -88,7 +88,7 @@ table td {
 #opcodeview div:hover {
    background: #A7B9B3;
 }
-#beep {
+#beep,#theme{
    position: fixed;
    right: 10px;
    bottom: 10px;
@@ -97,6 +97,13 @@ table td {
    border-radius: 50%;
    background: white;
    z-index: 10;
+}
+#theme{
+    right: initial;
+    left:10px;
+    box-shadow: 0 0 3px 2px rgba(0,0,0,.62);
+    background: #7B8637;
+    cursor: pointer;
 }
 .activated {
    background: green !important;
@@ -180,4 +187,51 @@ table td {
    #dbgc label {
        grid-column-start: span 4;
    }
+}
+
+body.dark{
+    background: url(https://naldzgraphics.net/wp-content/uploads/2014/09/11-seamless-leather-texture.jpg);
+    background-size: 222px;
+    color:white;
+}
+.dark #controls button, .dark #escreen, .dark #dbgc .material-icons {
+    background: url(https://us.123rf.com/450wm/mkrol/mkrol1307/mkrol130700018/20856982-dark-material-texture-of-bright-spots.jpg?ver=6);
+    border-radius: 12px;
+    border: 1px solid rgba(0,0,0,.64);
+    color: rgba(255,255,255,.4);
+    box-shadow: inset 1px -1px 10px 3px rgba(0,0,0,.34), inset 0px -10px 7px 15px rgba(0,0,0,.14), 0 4px 0px black;
+    background-size: 43px 100%;
+    outline: none;
+}
+.dark #controls button:active, .dark #dbgc .material-icons:active{
+    background: url(https://us.123rf.com/450wm/mkrol/mkrol1307/mkrol130700018/20856982-dark-material-texture-of-bright-spots.jpg?ver=6) !important;
+    background-size: 43px 100% !important;
+    box-shadow: inset 1px -1px 50px 2px rgba(0,0,0,.74);
+    transform:translateY(4px)
+}
+.dark #escreen{
+    background: #7B8637;
+    box-shadow: inset -1px 0px 5px 5px rgba(0,0,0,.34), inset 0px 0px 5px 1px rgba(0,0,0,.54), inset -1px 0px 46px 20px rgba(0,0,0,.34), 0 2px 4px 0px black;
+    border: none;
+    border-radius: 10px;
+}
+.dark #theme{
+    background: #222;
+    box-shadow: 0 0 3px 2px rgba(255,255,255,.62);
+}
+.dark #registers p{
+    background: #222;
+    box-shadow: inset 1px 1px 4px 2px rgba(2,2,2,.54);
+}
+.dark #registers p:before{
+    color: #aaa;
+    font-family: monospace;
+    transform: translateY(10px);
+}
+.dark #opwrapper{
+    background: #222;
+    box-shadow: inset 0 0 4px 2px rgba(0,0,0,.75);
+}
+.dark #opcodeview div:last-child,.dark  #opcodeview div:hover {
+    background: #000;
 }

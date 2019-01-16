@@ -13,6 +13,8 @@ export var S = {
         ]
     },
     init(HD,C){
+        this.color1 = document.body.classList.contains('dark') ? '#283300' : '#FFF';
+        this.color2 = document.body.classList.contains('dark') ? '#7B8637' : '#000';
         this.w = HD?640:64;
         this.h = HD?320:32;
         this.C = C
@@ -44,11 +46,9 @@ export var S = {
     },
     HDrenderer(){
         if(S.antiBlinker()) return
-        let white = '#FFF'
-        let black = '#000'
-        S.display.fillStyle = black;
+        S.display.fillStyle = S.color2;
         S.display.fillRect(0,0,640,320)
-        S.display.fillStyle = white;
+        S.display.fillStyle = S.color1;
         for(let i=0,l=S.pixels.length;i<l;i++){
             if(S.pixels[i]){
                 let x = i % 64 * 10

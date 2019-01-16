@@ -15,6 +15,7 @@ export var C = {
     initOnce(S){
         C.init()
         this.RL = romLoader.loader
+        theme.addEventListener('click',(e)=>{document.body.classList.toggle('dark');S.init(C.renderer,C)})
         damodecfg.addEventListener('change', (e) => {C.damode = C.parseCfg(e)});
         exmodecfg.addEventListener('change', (e) => {C.exmode = C.parseCfg(e)});
         debugcfg.addEventListener('change', (e) => {C.dbgmode = C.parseCfg(e);regcfg.disabled = C.dbgmode==2});
