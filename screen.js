@@ -59,8 +59,10 @@ export var S = {
     },
     SDrenderer(){
         if(S.antiBlinker()) return
+        const w = [255,255,255,255]
+        const b = [0,0,0,255]
         const frame = S.display.createImageData(64,32); //x,y,w,h
-        const pxls = [].concat.apply([],S.pixels.map(e=>e?[255,255,255,255]:[0,0,0,255]));
+        const pxls = [].concat.apply([],S.pixels.map(e=>e?w:b));
         frame.data.set(new Uint8ClampedArray(pxls));
         S.display.putImageData(frame,0,0);
     },

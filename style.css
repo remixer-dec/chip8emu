@@ -1,3 +1,6 @@
+html {
+  touch-action: manipulation;
+}
 body {
    font-family: Roboto, sans-serif;
 }
@@ -62,7 +65,7 @@ table td {
    display: grid;
    grid-template-columns: 1fr 1fr 1fr 1fr;
    grid-gap: 4px 10px;
-   text-align: center;
+   text-align: left;
    margin: 20px;
 }
 #opcodeview b {
@@ -122,6 +125,9 @@ table td {
    color: white;
    box-shadow: 0 1px 4px 2px rgba(0, 0, 0, .24);
    border-radius: 11px;
+   outline: none;
+   -webkit-outline: none;
+   -moz-outline: none;
 }
 #dbgc .material-icons, #mobiletabs span {
     outline: none;
@@ -149,7 +155,7 @@ table td {
 }
 #dbgc {
    display: grid;
-   grid-template-columns: 1fr 1fr 1fr 1fr 4fr;
+   grid-template-columns: 1fr 1fr 1fr 1fr 2fr 1fr 1fr;
    grid-gap: 2px 0;
    text-align: center;
    min-height: 40px;
@@ -161,7 +167,14 @@ table td {
    margin-right: 20px
 }
 #dbgc >:nth-child(6) {
-   margin: 0 20px;
+    margin: 0 6px 0 20px;
+}
+#dbgc >:nth-child(7) {
+    margin-right: 12px;
+    margin-left: 6px;
+}
+#dbgc >:nth-child(8) {
+    margin: 0 20px 0 0;
 }
 @media only screen and (max-width: 600px) {
    #topframe {
@@ -189,6 +202,13 @@ table td {
    }
    #dbgc label {
        grid-column-start: span 4;
+   }
+
+   #dbgc >:nth-child(7) {
+       grid-column-start: span 2;
+   }
+   #dbgc >:nth-child(8) {
+       grid-column-start: span 2;
    }
    table td {
       border: 1px solid black;
@@ -228,22 +248,22 @@ table td {
 }
 
 body.dark {
-    background: url(https://naldzgraphics.net/wp-content/uploads/2014/09/11-seamless-leather-texture.jpg);
+    background: url(./res/bg.jpg);
     background-size: 222px;
     color:white;
 }
 .dark #controls button, .dark #escreen, .dark #dbgc .material-icons {
-    background: url(https://us.123rf.com/450wm/mkrol/mkrol1307/mkrol130700018/20856982-dark-material-texture-of-bright-spots.jpg?ver=6);
+    background: url(./res/btn.jpg);
     border-radius: 12px;
     border: 1px solid rgba(0,0,0,.64);
     color: rgba(255,255,255,.4);
     box-shadow: inset 1px -1px 10px 3px rgba(0,0,0,.34), inset 0px -10px 7px 15px rgba(0,0,0,.14), 0 4px 0px black;
-    background-size: 43px 100%;
+    background-size: 84px 100%;
     outline: none;
 }
 .dark #controls button:active, .dark #dbgc .material-icons:active {
-    background: url(https://us.123rf.com/450wm/mkrol/mkrol1307/mkrol130700018/20856982-dark-material-texture-of-bright-spots.jpg?ver=6) !important;
-    background-size: 43px 100% !important;
+    background: url(./res/btn.jpg) !important;
+    background-size: 84px 100% !important;
     box-shadow: inset 1px -1px 50px 2px rgba(0,0,0,.74);
     transform:translateY(4px)
 }
@@ -303,4 +323,19 @@ body.dark {
 }
 .hidden {
     display: none !important;
+}
+.keybind {
+    border: 2px dashed #639 !important;
+    padding: 10px;
+    color: #639 !important;
+}
+#controls button:after {
+    content: attr(data-key);
+    color: #5c5c5c;
+    text-align: center;
+    width: 0px;
+    display: inline-block;
+    text-transform: capitalize;
+    float: right;
+    transform: translateX(-10px);
 }

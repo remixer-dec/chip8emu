@@ -14,21 +14,20 @@ JS ES6+ syntax:
 - generators / iterators  
 - Sets  
 - Methods  
-  
+
 HTML/CSS syntax:  
 - Web Components  
 - CSS Grid  
 
 **TODO:**  
 
- - [ ] key bindings  
+ - [X] key bindings  
  - [ ] game specific keyboards  
- - [ ] blinking reduction using 3 drawCalls  
- - [ ] generate extra frames based on draw differences to make animation smoother  
+ - [X] blinking reduction
+ - [ ] WebGL renderer
  - [ ] make different UI's with frameworks  
  - [ ] make this an offline PWA  
- - [ ] add shaders?  
-  
+
 
 **Special thanks to:**  
 [Wikipedia article about CHIP-8](https://en.wikipedia.org/wiki/CHIP-8)  
