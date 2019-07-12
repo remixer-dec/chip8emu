@@ -2,12 +2,19 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<meta name="theme-color" content="#101010">
+	<meta name="theme-color" content="#242329">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<title>Chip-8 interactive emulator | experimental project</title>
 	<link rel="import" href="opcode.html">
+	<link rel="manifest" href="manifest.json">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link href="./style.css" rel="stylesheet">
+	<link rel="apple-touch-icon-precomposed" href="res/icon.png">
+	<link rel="icon" href="./res/icon.png">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="application-name" content="Chip-8 Emulator">
 	</head>
 <body>
 	<div id="beep"></div>
@@ -186,6 +193,10 @@
 		</div>
 		<div id="changelog">
 			<h5>Changelog</h5>
+			<u>v1.0.0</u><br>
+			Added keybindings<br>
+			Added offline-support<br>
+			Optimized resources<br>
 			<u>v0.1.5</u>
 			Added mobile-friendly tabs.
 			<br>
@@ -239,6 +250,17 @@
 		<span name="2" id="debug_tab"><i class="material-icons">code</i></span>
 		<span name="3" id="info"><i class="material-icons">book</i></span>
 	</div>
+	<div id="swmodal" class="hidden">
+		<center><b>Offline content</b></center>
+		<ul>
+			<li>Emulator is <b id="emuoffline" class="nope" data-no="not available offline" data-yes="available offline"></b></li>
+			<li>ROMs are <b id="romoffline" class="nope" data-no="not available offline" data-yes="available offline"></b><span id="cacheromsbtn" class="swbtn hidden">Cache ROMs</span></li>
+			<li>Cached data is stored <b id="moredata" class="nope" data-no="untill device has enough space" data-yes="forever"></b><span id="xstoragebtn" class="swbtn">Store forever</span></li>
+			<li>This website is using <b id="infodata" class="nope" data-no="unknown amount of your storage"></b> <span id="clearswbtn" class="swbtn">Clear cached data</span></li>
+		</ul>
+		<center><sup>click outside of this window to close it</sup></center>
+	</div>
+	<div id="swmodalbg" class="hidden"></div>
 	<script defer src="https://rawcdn.githack.com/webcomponents/html-imports/de54e600e1de4b7bf05f3e2ba9f3ff964521bd71/html-imports.min.js"></script>
 	<script defer src="https://rawcdn.githack.com/FremyCompany/css-grid-polyfill/954d4383fda701c334ece4fc2e6834ef703aaa1a/bin/css-polyfills.min.js"></script>
 	<script type="module" src="main.js">

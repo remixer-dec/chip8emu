@@ -31,6 +31,16 @@ export var K = {
             btn.addEventListener('touchstart',K.keyPressEvent)
             btn.addEventListener('touchend',K.keyReleaseEvent)
         }
+        K.binds = localStorage['c8-keybinds'] ? JSON.parse(localStorage['c8-keybinds']) : K.binds
+        K.btns = controls.querySelectorAll('button')
+        for(let k in K.binds){
+            let v = K.binds[k]
+            for(let btn in btns){
+                if(btn == v){
+                    btns[btn].setAttribute('data-key',k)
+                }
+            }
+        }
     },
     waiter: false,
     waitForNextKey(){
@@ -42,7 +52,7 @@ export var K = {
             }
         })
     },
-    binds:[],
+    binds:{},
     kbmode:0,
     setKeyBindMode(){
         controls.classList.toggle('keybind')
@@ -52,6 +62,7 @@ export var K = {
             if(selectedKey){
                 selectedKey.classList.remove('keybind')
             }
+            localStorage['c8-keybinds'] = JSON.stringify(K.binds)
         }
     },
     setKBTarget(key,keyEvent){

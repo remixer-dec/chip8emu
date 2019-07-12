@@ -1,5 +1,6 @@
 import * as romLoader from './fileloader.js'
 import * as emulator from './emulator.js'
+import * as offline from './offline.js'
 window.RNG = () => Math.floor(Math.random() * 256)
 romselector.addEventListener('change', romLoader.loader)
 romLoader.setOnloadCbk(()=>{
@@ -46,4 +47,6 @@ window.onload = ()=>{
     for(let tab of mobiletabs.children){
         tab.addEventListener('click',tabs)
     }
+    offline.init()
+    if(navigator.onLine) changelog.innerHTML = '<iframe src="https://ghbtns.com/github-btn.html?user=remixer-dec&repo=chip8emu&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>' + changelog.innerHTML
 }

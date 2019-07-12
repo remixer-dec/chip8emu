@@ -15,7 +15,15 @@ export var C = {
     initOnce(S){
         C.init()
         this.RL = romLoader.loader
-        theme.addEventListener('click',(e)=>{document.body.classList.toggle('dark');S.init(C.renderer,C)})
+        theme.addEventListener('click',(e)=>{
+            document.body.classList.toggle('dark');
+            S.init(C.renderer,C)
+            let etheme = document.body.classList.contains('dark') ? 'dark' : 'light'
+            localStorage['c8-theme'] = etheme;
+        })
+        if(localStorage['c8-theme'] && localStorage['c8-theme'] == 'dark'){
+            theme.click()
+        }
         damodecfg.addEventListener('change', (e) => {C.damode = C.parseCfg(e)});
         exmodecfg.addEventListener('change', (e) => {C.exmode = C.parseCfg(e)});
         debugcfg.addEventListener('change', (e) => {C.dbgmode = C.parseCfg(e);regcfg.disabled = C.dbgmode==2});

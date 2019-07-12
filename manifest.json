@@ -1,0 +1,14 @@
+{
+  "name": "Chip-8 Emulator",
+  "short_name": "C8Emulator",
+  "start_url": "./",
+  "scope": "./",
+  "icons": [{
+    "src": "res/icon.png",
+    "sizes": "256x256"
+  }],
+  "background_color": "#242329",
+  "display": "standalone",
+  "start_url": "./",
+  "theme_color": "#242329"
+}
