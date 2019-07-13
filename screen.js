@@ -12,6 +12,12 @@ export var S = {
             decimal & 1
         ]
     },
+    initOnce(){
+        fsbtn.addEventListener('click',S.fullscreen)
+        fskbtn.addEventListener('click',S.fullscreenwithkb)
+        shbtn.addEventListener('click',S.noheightlimit);
+        escreen.addEventListener('dblclick',S.fullscreen)
+    },
     init(HD,C){
         this.color1 = document.body.classList.contains('dark') ? '#283300' : '#FFF';
         this.color2 = document.body.classList.contains('dark') ? '#7B8637' : '#000';
@@ -94,12 +100,12 @@ export var S = {
         this.vfframe = vf
         return vf;
     },
-    gameoverstr:"0x532,1x5,0x2,1x4,0x2,1x2,0,1x2,0,1x5,0x40,1,0x6,1,0x2,1,0x2,1,0,1,0,1,0,1,0x44,1,0,\
-1x3,0x2,1,0x2,1,0x2,1,0,1,0,1,0,1,0x44,1,0x3,1,0,1x6,0,1,0x3,1,0,1x3,0x42,1,0x2,1x2,0,1,0x3,1x2,0,1,\
-0x2,1x2,0,1x2,0x43,1,0x2,1x2,0,1,0x3,1x2,0,1,0x2,1x2,0,1x2,0x43,1x5,0,1,0x3,1x2,0,1,0x2,1x2,0,1x5,\
-0x104,1x5,0,1,0x4,1,0,1x5,0,1x5,0x40,1,0x3,1,0,1,0x4,1,0,1,0x5,1,0x3,1,0x40,1,0x2,1x2,0,1,0x3,1x2,0,\
-1,0x5,1x5,0x40,1,0x2,1x2,0,1,0x3,1x2,0,1x3,0x3,1,0x2,1,0x41,1,0x2,1x2,0,1x2,0x2,1x2,0,1x2,0x4,1x2,0,\
-1x2,0x40,1,0x2,1x2,0x2,1,0x2,1,0x2,1x2,0x4,1x2,0x2,1,0x40,1x5,0x3,1x2,0x3,1x5,0,1x2,0x2,1,0x595",
+    gameoverstr:"0x532,1x5,0x1,1x6,0x1,1x2,0,1x2,0,1x5,0x40,1,0x5,1,0x4,1,0,1,0,1,0,1,0,1,0x44,1,0x2,\
+1x2,0,1,0x4,1,0,1,0,1,0,1,0,1,0x44,1,0x3,1,0,1x6,0,1,0x3,1,0,1x5,0x40,1,0x3,1,0,1,0x4,1,0,1,\
+0x3,1,0,1,0x44,1,0x3,1,0,1,0x4,1,0,1,0x3,1,0,1,0x44,1x5,0,1,0x4,1,0,1,0x3,1,0,1x5,\
+0x104,1x5,0,1,0x4,1,0,1x5,0,1x5,0x40,1,0x3,1,0,1,0x4,1,0,1,0x5,1,0x3,1,0x40,1,0x3,1,0,1,0x4,1,0,\
+1,0x5,1x5,0x40,1,0x3,1,0,1,0x4,1,0,1x5,0,1x3,0x42,1,0x3,1,0,1,0x4,1,0,1,0x5,1,0x2,\
+1,0x41,1,0x3,1,0x2,1,0x2,1,0x2,1,0x5,1,0x3,1,0x40,1x5,0x3,1x2,0x3,1x5,0,1,0x3,1,0x595",
     parseGameOver(){
         let pieces = S.gameoverstr.split(",");
         let pixels = []
@@ -117,6 +123,34 @@ export var S = {
     },
     gameover(){
         S.pixels = this.gameOverArr
+    },
+    isFullscreen(){
+        return document.webkitIsFullScreen || //Webkit browsers
+           document.mozFullScreen || // Firefox
+           document.msFullscreenElement !== undefined;
+    },
+    requestFullscreen(e){
+        e.requestFullscreen ? e.requestFullscreen() :
+        (e.mozRequestFullScreen? e.mozRequestFullScreen() :
+        (e.webkitRequestFullScreen ? e.webkitRequestFullScreen() :
+        e.msRequestFullscreen()))
+    },
+    exitFullscreen(){
+        let e = document;
+        e.exitFullscreen ? e.exitFullscreen() :
+        (e.mozCancelFullScreen? e.mozCancelFullScreen() :
+        (e.webkitExitFullscreen ? e.webkitExitFullscreen() :
+        e.msExitFullscreen()))
+    },
+    fullscreen(){
+        S.isFullscreen() ? S.exitFullscreen(): S.requestFullscreen(scrwrap)
+    },
+    fullscreenwithkb(){
+        S.isFullscreen() ? S.exitFullscreen(): S.requestFullscreen(topframe)
+    },
+    noheightlimit(){
+        escreen.classList.toggle("hl")
+        controls.classList.toggle("hl")
     }
 }
 window.replayPixelSate = (e) => {S.pixels = e.target.getAttribute('data-screen').split(',').map(Number); S.renderer()}

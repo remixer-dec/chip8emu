@@ -41,7 +41,7 @@ export var C = {
         presetcfg.addEventListener('change', (e) => {
             switch(C.parseCfg(e)){
                 case 1:
-                    C.setCfgs([[damodecfg,1],[exmodecfg,0],[debugcfg,2],[fpscfg,16],[delaycfg,0]])
+                    C.setCfgs([[damodecfg,1],[exmodecfg,0],[debugcfg,2],[fpscfg,1000],[delaycfg,0]])
                 break
                 case 2:
                     C.setCfgs([[damodecfg,1],[exmodecfg,0],[debugcfg,2],[fpscfg,144],[delaycfg,0]])

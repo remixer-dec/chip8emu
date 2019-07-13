@@ -37,7 +37,13 @@ export function init(){
             if((reg.active && reg.active.state == "activated") || reg.installing || reg.waiting){
                 emuoffline.className = "yup"
                 cacheromsbtn.classList.remove("hidden")
-                cacheromsbtn.addEventListener('click',()=>{cacheROMS(reg.active);cacheromsbtn.remove;romoffline.className="yup";setTimeout(getUsedData,2000)});
+                cacheromsbtn.addEventListener('click',()=>{
+                    cacheROMS(reg.active);
+                    cacheromsbtn.remove;
+                    romoffline.className="yup";
+                    setTimeout(getUsedData,2000);
+                    cacheromsbtn.classList.add("hidden")
+                });
                 clearswbtn.addEventListener('click',()=>{
                     cleanSW(reg.active)
                     alert("Succesfully cleaned app's cache.")

@@ -18,10 +18,17 @@
 	</head>
 <body>
 	<div id="beep"></div>
-	<div id="theme"></div>
+	<div id="theme" title="Change theme"></div>
 	<div id="topframe">
-		<canvas id="escreen"></canvas>
-		<div id="controls">
+		<div id="scrwrap">
+			<div id="screenoptions">
+				<span id="fsbtn" title="full screen (only screen)">▣</span>
+				<span id="fskbtn" title="full screen (screen + keyboard)">◨</span>
+				<span id="shbtn" title="disable screen height limit">◰</span>
+			</div>
+			<canvas id="escreen" class="hl"></canvas>
+		</div>
+		<div id="controls" class="hl">
 			<button>1</button>
 			<button>2</button>
 			<button>3</button>
@@ -88,17 +95,6 @@
 				<option value="22">VERS</option>
 				<option value="23">WIPEOFF</option>
 			</select>
-			<label for="damodecfg">Order of parsing</label>
-			<select id="damodecfg">
-				<option value="0">Linear</option>
-				<option value="1" selected>Executional</option>
-			</select>
-
-			<label for="exmodecfg">Rendering mode</label>
-			<select id="exmodecfg">
-				<option value="0" selected>Live-view</option>
-				<option value="1">Pre-render</option>
-			</select>
 			<label for="debugcfg">Debug mode</label>
 			<select id="debugcfg">
 				<option value="0">Console with states</option>
@@ -110,12 +106,12 @@
 				<option value="0">Static registers</option>
 				<option value="1" selected>Live registers (slower)</option>
 			</select>
-			<label for="btnstcfg">Button sticking</label>
+			<label for="btnstcfg">Button sticking  <span class="info" data-info="Some games require precise click controls, When button sticking is OFF, 1 keypress+hold equals only 1 move. Try changing this option in PUZZLE ROM to see the effect.">❓</span></label>
 			<select id="btnstcfg">
 				<option value="0" selected>OFF</option>
 				<option value="1">ON</option>
 			</select>
-			<label for="fpscfg">Instructions per frame</label>
+			<label for="fpscfg">Instructions per frame <span class="info" data-info="How many instructions this emulator can execute, before drawing a frame. OnDraw (xN) draws a frame when N draw calls are executed. Using onDraw can give you good gaming performance, but if debug is enabled, it can freeze your browser">❓</span></label>
 			<select id="fpscfg">
 				<option value="1">1</option>
 				<option value="2">2</option>
@@ -139,7 +135,7 @@
 				<option value="9000">onDraw x9</option>
 				<option value="10000">onDraw x10</option>
 			</select>
-			<label for="delaycfg">Artificial delay between frames</label>
+			<label for="delaycfg">Artificial delay between frames<span class="info" data-info="If a game is too hard for you at certain speed, you can slow down rendering with this option.">❓</span></label>
 			<select id="delaycfg">
 				<option value="0" selected>No delay</option>
 				<option value="16">16ms</option>
@@ -160,11 +156,21 @@
 				<option value="1">Show GameOver screen</option>
 				<option value="2" selected>G/O screen + autoreset</option>
 			</select>
-			<label for="blinkcfg">Blink reduction strategy</label>
+			<label for="blinkcfg">Blink reduction strategy <span class="info" data-info="This configuration can reduce blinking with not drawing frames when vF register signals pixel flipping. Not all ROMs behave correctly when frameSkip is enabled. In roms like PONG it's not enough to skip 1 frame, and you can try using multi-staged vFFrameSkip">❓</span></label>
 			<select id="blinkcfg">
 				<option value="0">Disabled</option>
 				<option value="1">vFFrameSkip</option>
 				<option value="2">Multi-staged vFFrameSkip</option>
+			</select>
+			<label for="damodecfg">Order of parsing</label>
+			<select id="damodecfg">
+				<option value="0">Linear (for debugging only)</option>
+				<option value="1" selected>Executional</option>
+			</select>
+			<label for="exmodecfg">Rendering mode</label>
+			<select id="exmodecfg">
+				<option value="0" selected>Live-view</option>
+				<option value="1">Pre-render (for debugging only)</option>
 			</select>
 			</div>
 			<div id="dbgtools">

@@ -9,6 +9,7 @@ import {M} from './memory.js'
 C.initOnce(S);
 K.init(C);
 M.initOnce(R,S);
+S.initOnce()
 D.init(R,C,S);
 export function emulate(MEMORY){
     if(!M.stopFlag){ //turn off previous process before starting a new one

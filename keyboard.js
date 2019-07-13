@@ -32,11 +32,11 @@ export var K = {
             btn.addEventListener('touchend',K.keyReleaseEvent)
         }
         K.binds = localStorage['c8-keybinds'] ? JSON.parse(localStorage['c8-keybinds']) : K.binds
-        K.btns = controls.querySelectorAll('button')
+        let btns = controls.querySelectorAll('button')
         for(let k in K.binds){
             let v = K.binds[k]
             for(let btn in btns){
-                if(btn == v){
+                if(btns[btn].innerText == v.toString(16).toUpperCase()){
                     btns[btn].setAttribute('data-key',k)
                 }
             }
@@ -85,7 +85,7 @@ export var K = {
                 var emuKey = K.parseKey({target:selectedKey});
                 //if key is already used
                 if(K.binds[keyEvent.key]){
-                    let prevKeyBtn = controls.querySelector('button[data-key="'+event.key+'"]')
+                    let prevKeyBtn = controls.querySelector('button[data-key="'+keyEvent.key+'"]')
                     if(prevKeyBtn){
                         prevKeyBtn.setAttribute('data-key','');
                     }

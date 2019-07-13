@@ -12,7 +12,9 @@ export var D = {
         return q.toUpperCase()
     },
     reg(regID){
-        return `<u t="reg${regID}" h="${this.R.getReg(regID)}"></u>`;
+        let regX = regID.toString(16).toUpperCase();
+        regX = regX === '10' ? 'I': regX
+        return `<u t="v${regX}" h="${this.R.getReg(regID)}"></u>`;
     },
     getReadableInstruction(addr, instr, opcodeData){
         let rstate = this.R.getState();
@@ -72,7 +74,7 @@ export var D = {
                     case 0x9:
                         return ["9XY0","Cond",`Skips the next instruction if ${D.reg(opX)} != ${D.reg(opY)}.`]
                     case 0xA:
-                        return ["ANNN","MEM",`Sets regI to adress 0x${opNNN.toString(16)}`]
+                        return ["ANNN","MEM",`Sets vI to adress 0x${opNNN.toString(16)}`]
                     case 0xB:
                         return ["BNNN","Flow",`Jumps to the adress ${opNNN.toString(16)} + ${D.reg(0)}`]
                     case 0xC:
