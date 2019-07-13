@@ -6,6 +6,35 @@ export function loader(e,remote){// FileReader API callback
 		reader.readAsArrayBuffer(romselector.files[0])
 		setTimeout(()=>{loadArrayBuffer(reader.result)},420)
 	} else{
+		let extsrc = 'https://mir3z.github.io/chip8-emu/roms/'
+		if(remote == "[MORE]"){
+			fetch(extsrc+'roms.json').then( r=>r.json().then(j=>{
+				romcfg.lastElementChild.remove()
+				window.ROMS = {}
+				let existing = Array.from(romcfg.querySelectorAll('option')).map(x=>x.innerText)
+				let extraroms = ''
+				let i=24
+				for(let rom of j){
+					window.ROMS[rom.title] = rom
+					if(existing.indexOf(rom.title.replace(/ /g,'')) == -1){
+						if(rom.title == 'WIPE OFF'){
+						}
+						extraroms += `<option value=${i++}>[E]${rom.title}</option>`
+					} else {
+						if(existing.indexOf(rom.title == -1)){
+							window.ROMS[rom.title] = undefined
+							window.ROMS[rom.title.replace(/ /g,'')] = rom
+						}
+					}
+				}
+				romcfg.innerHTML+=extraroms;
+				alert('Succesfully loaded more roms');
+			}))
+			return
+		}
+		if(remote[0] == "["){
+			return fetch(extsrc+window.ROMS[remote.substr(3)].file).then(resp=>resp.arrayBuffer()).then(ab=>loadArrayBuffer(ab))
+		}
 		fetch("./roms/"+remote).then(resp=>resp.arrayBuffer()).then(ab=>loadArrayBuffer(ab))
 	}
 }

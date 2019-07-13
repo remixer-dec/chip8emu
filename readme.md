@@ -26,10 +26,11 @@ HTML/CSS syntax:
  - [X] blinking reduction
  - [ ] WebGL renderer
  - [ ] make different UI's with frameworks  
- - [ ] make this an offline PWA  
+ - [X] make this an offline PWA  
 
 
 **Special thanks to:**  
+[mir3z/chip8-emu](https://github.com/mir3z/chip8-emu) for extra ROMs & ROM description,  
 [Wikipedia article about CHIP-8](https://en.wikipedia.org/wiki/CHIP-8)  
 [Chip-8 manual](http://chip8.sourceforge.net/chip8-1.1.pdf)  
 [The article about writing an emulator](http://www.multigesture.net/articles/how-to-write-an-emulator-chip-8-interpreter/)  

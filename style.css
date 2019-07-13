@@ -29,7 +29,7 @@ table td {
    color: red;
 }
 .yes:before {
-   content: 'ready';
+   content: 'done';
    color: #3a0;
 }
 #registers {
@@ -139,7 +139,7 @@ table td {
    -moz-outline: none;
    outline: none;
 }
-#dbgc .material-icons, #mobiletabs span {
+#dbgc .material-icons, #mobiletabs span, #controls button:after{
     outline: none;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -477,8 +477,9 @@ body.dark {
     width: 0px;
     display: inline-block;
     text-transform: capitalize;
-    float: right;
-    transform: translateX(-10px);
+    transform: translateX(-8px);
+    position: relative;
+    bottom: -14px;
 }
 #swmodal {
     position: absolute;

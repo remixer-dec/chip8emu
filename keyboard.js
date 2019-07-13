@@ -8,7 +8,7 @@ export var K = {
         return parseInt(keyEvent.target.innerText,16)
     },
     keyPressEvent(keyEvent,key){
-        key = key || K.parseKey(keyEvent)
+        key = key || ((key === 0) ? 0 : (K.lastMDownKey = K.parseKey(keyEvent)))
         if(K.kbmode){
             return K.setKBTarget(key,keyEvent)
         }
@@ -20,7 +20,7 @@ export var K = {
         K.lastKey = key
     },
     keyReleaseEvent(keyEvent,key){
-        key = key || K.parseKey(keyEvent)
+        key = key || ((key === 0) ? 0 : K.parseKey(keyEvent))
         K.pressed.delete(key)
     },
     init(C){
@@ -30,6 +30,8 @@ export var K = {
             btn.addEventListener('mouseup',K.keyReleaseEvent)
             btn.addEventListener('touchstart',K.keyPressEvent)
             btn.addEventListener('touchend',K.keyReleaseEvent)
+            window.addEventListener('mouseup',K.outsideUpEvent)
+            window.addEventListener('touchend',K.outsideUpEvent)
         }
         K.binds = localStorage['c8-keybinds'] ? JSON.parse(localStorage['c8-keybinds']) : K.binds
         let btns = controls.querySelectorAll('button')
@@ -72,7 +74,7 @@ export var K = {
     },
     keyboardInputListener(keyEvent){
         if(!(K.kbmode)){
-            if(K.binds[keyEvent.key]){
+            if(keyEvent.key in K.binds){
                 K.keyPressEvent(0,K.binds[keyEvent.key])
                 keyEvent.preventDefault()
             }
@@ -84,7 +86,7 @@ export var K = {
             if(selectedKey){
                 var emuKey = K.parseKey({target:selectedKey});
                 //if key is already used
-                if(K.binds[keyEvent.key]){
+                if(keyEvent.key in K.binds){
                     let prevKeyBtn = controls.querySelector('button[data-key="'+keyEvent.key+'"]')
                     if(prevKeyBtn){
                         prevKeyBtn.setAttribute('data-key','');
@@ -102,8 +104,14 @@ export var K = {
         }
     },
     keyboardUpListener(keyEvent){
-        if(K.binds[keyEvent.key]){
+        if(keyEvent.key in K.binds){
             K.keyReleaseEvent(0,K.binds[keyEvent.key])
+        }
+    },
+    lastMDownKey:0,
+    outsideUpEvent(){//if click is released outside of button area
+        if(K.lastMDownKey){
+            K.keyReleaseEvent(0,K.lastMDownKey)
         }
     }
 }
