@@ -157,7 +157,7 @@
 				<option value="1">Show GameOver screen</option>
 				<option value="2" selected>G/O screen + autoreset</option>
 			</select>
-			<label for="blinkcfg">Blink reduction strategy <span class="info" data-info="This configuration can reduce blinking with not drawing frames when vF register signals pixel flipping. Not all ROMs behave correctly when frameSkip is enabled. In roms like PONG it's not enough to skip 1 frame, and you can try using multi-staged vFFrameSkip">❓</span></label>
+			<label for="blinkcfg">Blink reduction strategy <span class="info" data-info="This configuration can reduce blinking by not drawing frames when vF register signals pixel flipping. Not all ROMs behave correctly when frameSkip is enabled. In roms like PONG it's not enough to skip 1 frame, and you can try using multi-staged vFFrameSkip">❓</span></label>
 			<select id="blinkcfg">
 				<option value="0">Disabled</option>
 				<option value="1">vFFrameSkip</option>
@@ -173,6 +173,12 @@
 				<option value="0" selected>Live-view</option>
 				<option value="1">Pre-render (for debugging only)</option>
 			</select>
+			<label for="regIfixcfg">vI in FX55/65 <span class="info" data-info="Some ROMs (like Animal Race) require this to be in Increment mode, and others require original implementation. Change this if you feel like something is wrong with sprite rendering.">❓</span></label>
+			<select id="regIfixcfg">
+				<option value="0">Not increment</option>
+				<option value="1">Increment</option>
+			</select>
+
 			</div>
 			<div id="dbgtools">
 			<span id="opwrapper">

@@ -26,7 +26,9 @@ HTML/CSS syntax:
  - [X] blinking reduction
  - [ ] WebGL renderer
  - [ ] make different UI's with frameworks  
- - [X] make this an offline PWA  
+ - [X] make this an offline PWA
+ - [ ] Gamepad support
+
 
 
 **Special thanks to:**  

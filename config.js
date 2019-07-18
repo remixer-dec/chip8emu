@@ -33,6 +33,7 @@ export var C = {
         rendercfg.addEventListener('change', (e) => {C.renderer = C.parseCfg(e);S.init(C.renderer,C)});
         gameovercfg.addEventListener('change', (e) => {C.gameover = C.parseCfg(e)});
         regcfg.addEventListener('change', (e) => {C.regmode = C.parseCfg(e)});
+        regIfixcfg.addEventListener('change', (e) => {C.regIfix = C.parseCfg(e)});
         romcfg.addEventListener('change', (e) => {
         if(e.target.value == "0") return
             this.RL(false,e.target.children[C.parseCfg(e)].innerHTML);

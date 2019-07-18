@@ -153,7 +153,7 @@ export var CPU = {
                         M.pointer+=2;
                         return ret;
                     case 0xB:
-                        CPU.jumpTo(opNN + R.getReg(0));
+                        CPU.jumpTo(opNNN + R.getReg(0));
                         return ret;
                     case 0xC:
                         let RAND = RNG();
@@ -220,16 +220,24 @@ export var CPU = {
                                 M.pointer+=2
                             return ret;
                             case 0x55:
+                                let j;
                                 let ptr = R.getReg(16)
-                                for(let u=0;u<=opX;u++){
-                                    M.RAM[ptr+u] = R.getReg(u)
+                                for(j=0;j<=opX;j++){
+                                    M.RAM[ptr+j] = R.getReg(j)
+                                }
+                                if(C.regIfix){
+                                    R.setReg(16,ptr+j)
                                 }
                                 M.pointer+=2
                             return ret;
                             case 0x65:
+                                let u
                                 let xptr = R.getReg(16)
-                                for(let u=0;u<=opX;u++){
+                                for(u=0;u<=opX;u++){
                                     R.setReg(u,M.RAM[xptr+u])
+                                }
+                                if(C.regIfix){
+                                    R.setReg(16,xptr+u)
                                 }
                                 M.pointer+=2
                             return ret;
