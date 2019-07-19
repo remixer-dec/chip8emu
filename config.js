@@ -11,7 +11,6 @@ export var C = {
             sc.push([window[cfg[i]],this[prm[i]]])
         }
         if(localStorage['c8-cfg']){
-            console.log(sc)
             C.setCfgs(sc)
         }
     },
@@ -24,7 +23,7 @@ export var C = {
             let etheme = document.body.classList.contains('dark') ? 'dark' : 'light'
             localStorage['c8-theme'] = etheme;
         })
-        if(localStorage['c8-theme'] && localStorage['c8-theme'] == 'dark'){
+        if((localStorage['c8-theme'] && localStorage['c8-theme'] == 'dark') || (!localStorage['c8-theme'] && 'matchMedia' in window && window.matchMedia('(prefers-color-scheme: dark)').matches)){
             theme.click()
         }
         savecfg.addEventListener('click', (e) => {
