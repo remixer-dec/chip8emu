@@ -11,6 +11,7 @@ K.init(C);
 M.initOnce(R,S);
 S.initOnce()
 D.init(R,C,S);
+window.emu = {CPU:CPU,screen:S,registers:R,keyboard:K,memory:M,debug:D,configuration:C}
 export function emulate(MEMORY){
     if(!M.stopFlag){ //turn off previous process before starting a new one
         M.stopFlag = true;

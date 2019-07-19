@@ -1,20 +1,23 @@
 import * as romLoader from './fileloader.js'
+let prm = ['damode','exmode','dbgmode','opPerCycle','btnSticking','delay','renderer','gameover','regmode','blinkcfg','altImp','slimit']
+let cfg = ['damodecfg','exmodecfg','debugcfg','fpscfg','btnstcfg','delaycfg','rendercfg','gameovercfg','regcfg','blinkcfg','altimpcfg','scrlimitcfg']
 export var C = {
     init(){
-        this.damode = parseInt(damodecfg.value)
-        this.exmode = parseInt(exmodecfg.value)
-        this.dbgmode = parseInt(debugcfg.value)
-        this.opPerCycle = parseInt(fpscfg.value)
-        this.btnSticking = parseInt(btnstcfg.value)
-        this.delay = parseInt(delaycfg.value)
-        this.renderer = parseInt(rendercfg.value)
-        this.gameover = parseInt(gameovercfg.value)
-        this.regmode = parseInt(regcfg.value)
-        this.blinkcfg = parseInt(blinkcfg.value)
+        var saved = localStorage['c8-cfg'] ? 1 : 0
+        let savedcfg = saved ? JSON.parse(localStorage['c8-cfg']) : new Array(20)
+        let sc = []
+        for(let i=0,l=prm.length;i<l;i++){
+            this[prm[i]] = saved ? savedcfg[i] : parseInt(window[cfg[i]].value)
+            sc.push([window[cfg[i]],this[prm[i]]])
+        }
+        if(localStorage['c8-cfg']){
+            console.log(sc)
+            C.setCfgs(sc)
+        }
     },
     initOnce(S){
         C.init()
-        this.RL = romLoader.loader
+        this.RL = romLoader.load
         theme.addEventListener('click',(e)=>{
             document.body.classList.toggle('dark');
             S.init(C.renderer,C)
@@ -24,6 +27,15 @@ export var C = {
         if(localStorage['c8-theme'] && localStorage['c8-theme'] == 'dark'){
             theme.click()
         }
+        savecfg.addEventListener('click', (e) => {
+            let ecfg = []
+            for(let i=0,l=cfg.length;i<l;i++){
+                ecfg.push(parseInt(window[cfg[i]].value))
+            }
+            localStorage['c8-cfg'] = JSON.stringify(ecfg)
+            e.target.style.backgroundColor = '#66BB6A'
+            setTimeout(()=>e.target.style.backgroundColor = '',2000)
+        });
         damodecfg.addEventListener('change', (e) => {C.damode = C.parseCfg(e)});
         exmodecfg.addEventListener('change', (e) => {C.exmode = C.parseCfg(e)});
         debugcfg.addEventListener('change', (e) => {C.dbgmode = C.parseCfg(e);regcfg.disabled = C.dbgmode==2});
@@ -33,7 +45,8 @@ export var C = {
         rendercfg.addEventListener('change', (e) => {C.renderer = C.parseCfg(e);S.init(C.renderer,C)});
         gameovercfg.addEventListener('change', (e) => {C.gameover = C.parseCfg(e)});
         regcfg.addEventListener('change', (e) => {C.regmode = C.parseCfg(e)});
-        regIfixcfg.addEventListener('change', (e) => {C.regIfix = C.parseCfg(e)});
+        altimpcfg.addEventListener('change', (e) => {C.altImp = C.parseCfg(e)});
+        scrlimitcfg.addEventListener('change', (e) => {C.slimit = C.parseCfg(e)});
         romcfg.addEventListener('change', (e) => {
         if(e.target.value == "0") return
             this.RL(false,e.target.children[C.parseCfg(e)].innerHTML);

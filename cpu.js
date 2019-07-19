@@ -2,7 +2,7 @@ var C,S,R,M,D,K
 var skipNext = false;
 export var CPU = {
     init(r,c,s,m,d,k){
-        //makes all the needed parts accessible for the CPU
+        //makes all the required parts accessible for the CPU
         C=c; S=s; R=r; M=m; D=d; K=k;
     },
     jumpTo(addr, memorize){
@@ -21,7 +21,7 @@ export var CPU = {
                         return setTimeout(_=>resetbtn.click(),1000)
                     }
                 }
-                M.stopFlag = true;
+                M.pauseFlag = true;
             }
         } else {
             M.pointer+=2;
@@ -127,8 +127,13 @@ export var CPU = {
                                 M.pointer+=2;
                                 return ret;
                             case 0x6:
-                                R.setReg(15, R.getReg(opX) & 0x1)
-                                R.setReg(opX, R.getReg(opX) >> 1);
+                                if(C.altImp){
+                                    R.setReg(15,R.getReg(opY) & 0x1)
+                                    R.setReg(opX, R.getReg(opY) >> 1)
+                                } else {
+                                    R.setReg(15, R.getReg(opX) & 0x1)
+                                    R.setReg(opX, R.getReg(opX) >> 1);
+                                }
                                 M.pointer+=2;
                                 return ret;
                             case 0x7:
@@ -137,8 +142,13 @@ export var CPU = {
                                 M.pointer+=2;
                                 return ret;
                             case 0xE:
-                                R.setReg(15, R.getReg(opX) >> 7)
-                                R.setReg(opX, R.getReg(opX) << 1);
+                                if(C.altImp){
+                                    R.setReg(15,R.getReg(opY) >> 7)
+                                    R.setReg(opX, R.getReg(opY) << 1)
+                                } else {
+                                    R.setReg(15, R.getReg(opX) >> 7)
+                                    R.setReg(opX, R.getReg(opX) << 1);
+                                }
                                 M.pointer+=2;
                                 return ret;
                         }
@@ -225,7 +235,7 @@ export var CPU = {
                                 for(j=0;j<=opX;j++){
                                     M.RAM[ptr+j] = R.getReg(j)
                                 }
-                                if(C.regIfix){
+                                if(C.altImp){
                                     R.setReg(16,ptr+j)
                                 }
                                 M.pointer+=2
@@ -236,7 +246,7 @@ export var CPU = {
                                 for(u=0;u<=opX;u++){
                                     R.setReg(u,M.RAM[xptr+u])
                                 }
-                                if(C.regIfix){
+                                if(C.altImp){
                                     R.setReg(16,xptr+u)
                                 }
                                 M.pointer+=2

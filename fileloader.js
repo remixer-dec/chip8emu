@@ -1,46 +1,55 @@
 let loadCallback = ()=>{} // global callback
 export let MEMORY = false // romfile will be loaded in here
-export function loader(e,remote){// FileReader API callback
+let extsrc = 'https://mir3z.github.io/chip8-emu/roms/' //external ROM mirror
+export function load(e,remote){// FileReader API callback
 	if(!remote){
 		let reader = new FileReader()
+		opcodeview.innerHTML+='<div>loading...</div>'
+		insertROMDescription(romselector.files[0].name.toUpperCase().replace(/\.c8$/,''))
 		reader.readAsArrayBuffer(romselector.files[0])
 		setTimeout(()=>{loadArrayBuffer(reader.result)},420)
 	} else{
-		let extsrc = 'https://mir3z.github.io/chip8-emu/roms/'
-		if(remote == "[MORE]"){
-			fetch(extsrc+'roms.json').then( r=>r.json().then(j=>{
-				romcfg.lastElementChild.remove()
-				window.ROMS = {}
-				let existing = Array.from(romcfg.querySelectorAll('option')).map(x=>x.innerText)
-				let extraroms = ''
-				let i=24
-				for(let rom of j){
-					window.ROMS[rom.title] = rom
-					if(existing.indexOf(rom.title.replace(/ /g,'')) == -1){
-						if(rom.title == 'WIPE OFF'){
-						}
-						extraroms += `<option value=${i++}>[E]${rom.title}</option>`
-					} else {
-						if(existing.indexOf(rom.title == -1)){
-							window.ROMS[rom.title] = undefined
-							window.ROMS[rom.title.replace(/ /g,'')] = rom
-						}
-					}
-				}
-				romcfg.innerHTML+=extraroms;
-				alert('Succesfully loaded more roms');
-			}))
-			return
-		}
 		if(remote[0] == "["){
-			return fetch(extsrc+window.ROMS[remote.substr(3)].file).then(resp=>resp.arrayBuffer()).then(ab=>loadArrayBuffer(ab))
+			remote = remote.substr(3)
+			insertROMDescription(remote,1)
+			return fetch(extsrc+window.ROMS[remote].file).then(resp=>resp.arrayBuffer()).then(ab=>loadArrayBuffer(ab))
 		}
+		insertROMDescription(remote)
 		fetch("./roms/"+remote).then(resp=>resp.arrayBuffer()).then(ab=>loadArrayBuffer(ab))
 	}
 }
+export function loadExternalData(){
+	fetch(extsrc+'roms.json').then( r=>r.json().then(j=>{
+		window.ROMS = {}
+		let localroms = Array.from(romcfg.querySelectorAll('option')).map(x=>x.innerText)
+		let extraroms = ''
+		let i=24
+		for(let rom of j){
+			window.ROMS[rom.title] = rom
+			if(localroms.indexOf(rom.title.replace(/ /g,'')) == -1){
+				extraroms += `<option value=${i++}>[E]${rom.title}</option>`
+				window.ROMS[rom.title].e = 1
+			} else {
+				if(localroms.indexOf(rom.title != -1)){
+					delete window.ROMS[rom.title]
+					window.ROMS[rom.title.replace(/ /g,'')] = rom
+				}
+			}
+		}
+		romcfg.innerHTML+=extraroms;
+	}).catch(e=>{window.ROMS = {}}))
+}
+function insertROMDescription(romname,ext){
+	if(romname in window.ROMS){
+		ext = ext ? 'ROM and ' : ''
+		romtitle.innerHTML = `<h5>About the game ${romname}</h5>`
+		romtext.innerHTML = window.ROMS[romname].description+=`<br><sub>${ext}description provided by <a href="https://github.com/mir3z/chip8-emu" target="_blank">mir3z</a></sub>`
+		setTimeout(()=>romdesc.classList.remove('hidden'),200)
+	}
+	romdesc.classList.add('hidden')
+}
 function loadArrayBuffer(ab){
     let dataView = new DataView(ab)
-	window.DW = dataView;
 	let fontset = [
 		0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
 		0x20, 0x60, 0x20, 0x20, 0x70, // 1

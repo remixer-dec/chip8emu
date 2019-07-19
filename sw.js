@@ -1,6 +1,5 @@
-var staticCache = 'c8-main-v1'
+var staticCache = 'c8-main-v2'
 var allCaches = [staticCache]
-
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(staticCache).then(function (cache) {
     return cache.addAll([
@@ -49,6 +48,29 @@ self.addEventListener('fetch', (event)=>{
 self.addEventListener('message',(event)=>{
   if (event.data.action === 'refresh') {
     self.skipWaiting()
+  }
+  if(event.data.action === 'cacheEXTROMS'){
+     event.waitUntil(caches.open(staticCache).then(function (cache) {
+        return cache.addAll(event.data.roms)
+    }))
+  }
+  if(event.data.action === 'check'){
+    let ch
+    event.waitUntil(caches.open(staticCache).then(function(cache) {
+        ch = cache
+        return clients.claim();
+    }).then(function() {
+      return self.clients.matchAll().then(function(clients) {
+        return Promise.all(clients.map(function(client) {
+            return ch.keys().then(k=>{
+                var c = [0,0]
+                c[0] = k.find(x=>x.url.match('roms/UFO')) ? 1 : 0
+                c[1] = k.find(x=>x.url.match('Filter.ch8')) ? 1 : 0
+                client.postMessage(JSON.stringify(c))
+            })
+        }));
+      });
+    }))
   }
   if(event.data.action === 'cacheROMS'){
       event.waitUntil(caches.open(staticCache).then(function (cache) {

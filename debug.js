@@ -1,8 +1,8 @@
 export var D = {
     init(R,C,S){
-        this.R = R;
-        this.C = C;
-        this.S = S;
+        Object.defineProperty(this, 'R', { value: R, enumerable: false});
+        Object.defineProperty(this, 'C', { value: C, enumerable: false});
+        Object.defineProperty(this, 'S', { value: S, enumerable: false});
     },
     adrNormalizer(decval, zeroes){
         let q = decval.toString(16);
@@ -65,11 +65,11 @@ export var D = {
                             case 0x5:
                                 return ["8XY5","Math",`Sets ${D.reg(opX)} -= ${D.reg(opY)}`]
                             case 0x6:
-                                return ["8XY6","BitOp",`Shifts ${D.reg(opX)} to the right by 1`]
+                                return this.C.altImp ? ["8XYE","BitOp",`Stores ${D.reg(opY)} shifted right by 1 in ${D.reg(opX)}, sets ${D.reg(15)} to ${D.reg(opY)} & 1`] : ["8XYE","BitOp",`Shifts ${D.reg(opX)} to the right by 1, sets ${D.reg(15)} to ${D.reg(opX)} & 1`]
                             case 0x7:
                                 return ["8XY7","Const",`Sets ${D.reg(opX)} = ${D.reg(opY)} - ${D.reg(opX)}`]
                             case 0xE:
-                                return ["8XYE","BitOp",`Shifts ${D.reg(opX)} to the left by 1`]
+                                return this.C.altImp ? ["8XYE","BitOp",`Stores ${D.reg(opY)} shifted left by 1 in ${D.reg(opX)}, sets ${D.reg(15)} to ${D.reg(opY)} & 1`] : ["8XYE","BitOp",`Shifts ${D.reg(opX)} to the left by 1, sets ${D.reg(15)} to ${D.reg(opX)} & 1`]
                         }
                     case 0x9:
                         return ["9XY0","Cond",`Skips the next instruction if ${D.reg(opX)} != ${D.reg(opY)}.`]
@@ -101,13 +101,13 @@ export var D = {
                             case 0x1E:
                             return ["FX1E","MEM",`Adds ${D.reg(opX)} to ${D.reg(16)}`]
                             case 0x29:
-                            return ["FX1E","MEM",`Sets I to the location of the sprite for the character in VX.`]
+                            return ["FX1E","MEM",`Sets I to the location of the sprite for the character in ${D.reg(opX)}.`]
                             case 0x33:
-                            return ["FX1E","MEM",`Sets memory at I,I+1,i+2 to VX.`]
+                            return ["FX1E","MEM",`Sets memory at I,I+1,i+2 to ${D.reg(opX)}.`]
                             case 0x55:
-                            return ["FX55","MEM",`Dumps all registers from 0 to X to memory ${D.reg(16)}`]
+                            return this.C.altImp ? ["FX55","MEM",`Dumps all registers from 0 to X to ${D.reg(16)}, vF += X+1`] : ["FX55","MEM",`Dumps all registers from 0 to X to memory ${D.reg(16)}`]
                             case 0x65:
-                            return ["FX65","MEM",`Loads all registers from 0 to x from memory ${D.reg(16)}`]
+                            return this.C.altImp ? ["FX65","MEM",`Loads all registers from 0 to X to ${D.reg(16)}, vF += X+1`] : ["FX65","MEM",`Loads all registers from 0 to X from memory ${D.reg(16)}`]
                             default:
                             return ["F000","UNK","<u style='color:red'>F UNKNOWN OPCODE</u>"]
                         }

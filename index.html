@@ -94,7 +94,6 @@
 				<option value="21">VBRIX</option>
 				<option value="22">VERS</option>
 				<option value="23">WIPEOFF</option>
-				<option value="24">[MORE]</option>
 			</select>
 			<label for="debugcfg">Debug mode</label>
 			<select id="debugcfg">
@@ -173,40 +172,54 @@
 				<option value="0" selected>Live-view</option>
 				<option value="1">Pre-render (for debugging only)</option>
 			</select>
-			<label for="regIfixcfg">vI in FX55/65 <span class="info" data-info="Some ROMs (like Animal Race) require this to be in Increment mode, and others require original implementation. Change this if you feel like something is wrong with sprite rendering.">❓</span></label>
-			<select id="regIfixcfg">
-				<option value="0">Not increment</option>
-				<option value="1">Increment</option>
+			<label for="altimpcfg">Instruction executor<span class="info" data-info="Some ROMs (like 'Animal race' and 'Most dangerous game') only work correctly in Alternative mode, and others in original. Change this if you feel like something is wrong with the game.">❓</span></label>
+			<select id="altimpcfg">
+				<option value="0">Original</option>
+				<option value="1">Alternative</option>
 			</select>
-
+			<label for="scrlimitcfg">Screen limit<span class="info" data-info="If enabled, it does not render pixels that are outside of visible screen space. You can see the difference in ROMs like MINIMAL GAME.">❓</span></label>
+			<select id="scrlimitcfg">
+				<option value="1">overflow limit</option>
+				<option value="0">no limit</option>
+			</select>
+				<i id="savecfg" title="save configuration" class="material-icons">save</i>
 			</div>
 			<div id="dbgtools">
 			<span id="opwrapper">
 				<div id="opcodeview"></div>
 			</span>
 			<div id="registers">
-				<p id="rv0" name="v0" v="0"></p>
-				<p id="rv1" name="v1" v="0"></p>
-				<p id="rv2" name="v2" v="0"></p>
-				<p id="rv3" name="v3" v="0"></p>
-				<p id="rv4" name="v4" v="0"></p>
-				<p id="rv5" name="v5" v="0"></p>
-				<p id="rv6" name="v6" v="0"></p>
-				<p id="rv7" name="v7" v="0"></p>
-				<p id="rv8" name="v8" v="0"></p>
-				<p id="rv9" name="v9" v="0"></p>
-				<p id="rv10" name="vA" v="0"></p>
-				<p id="rv11" name="vB" v="0"></p>
-				<p id="rv12" name="vC" v="0"></p>
-				<p id="rv13" name="vD" v="0"></p>
-				<p id="rv14" name="vE" v="0"></p>
-				<p id="rv15" name="vF" v="0"></p>
-				<p id="rvI" name="I"  v="0"></p>
+				<p id="rv0" name="v0" v="0" v16="0"></p>
+				<p id="rv1" name="v1" v="0" v16="0"></p>
+				<p id="rv2" name="v2" v="0" v16="0"></p>
+				<p id="rv3" name="v3" v="0" v16="0"></p>
+				<p id="rv4" name="v4" v="0" v16="0"></p>
+				<p id="rv5" name="v5" v="0" v16="0"></p>
+				<p id="rv6" name="v6" v="0" v16="0"></p>
+				<p id="rv7" name="v7" v="0" v16="0"></p>
+				<p id="rv8" name="v8" v="0" v16="0"></p>
+				<p id="rv9" name="v9" v="0" v16="0"></p>
+				<p id="rv10" name="vA" v="0" v16="0"></p>
+				<p id="rv11" name="vB" v="0" v16="0"></p>
+				<p id="rv12" name="vC" v="0" v16="0"></p>
+				<p id="rv13" name="vD" v="0" v16="0"></p>
+				<p id="rv14" name="vE" v="0" v16="0"></p>
+				<p id="rv15" name="vF" v="0" v16="0"></p>
+				<p id="rvI" name="I"  v="0" v16="0"></p>
 			</div>
 		</div>
 		<div id="changelog">
+			<div class="hidden" id="romdesc">
+				<div id="romtitle"></div>
+				<div id="romtext"></div>
+			</div>
 			<h5>Changelog</h5>
-			<u>v1.0.0</u><br>
+			<u>v1.1</u><br>
+			Fixed bugs<br>
+			Added external roms and rom description<br>
+			Added extra configuration<br>
+			Added fullscreen-mode<br>
+			<u>v1.0</u><br>
 			Added keybindings<br>
 			Added offline-support<br>
 			Optimized resources<br>
@@ -268,6 +281,7 @@
 		<ul>
 			<li>Emulator is <b id="emuoffline" class="nope" data-no="not available offline" data-yes="available offline"></b></li>
 			<li>ROMs are <b id="romoffline" class="nope" data-no="not available offline" data-yes="available offline"></b><span id="cacheromsbtn" class="swbtn hidden">Cache ROMs</span></li>
+			<li>Game info & External ROMs are <b id="eromoffline" class="nope" data-no="not available offline" data-yes="available offline"></b><span id="cacheeromsbtn" class="swbtn hidden">Cache them</span></li>
 			<li>Cached data is stored <b id="moredata" class="nope" data-no="untill device has enough space" data-yes="forever"></b><span id="xstoragebtn" class="swbtn">Store forever</span></li>
 			<li>This website is using <b id="infodata" class="nope" data-no="unknown amount of your storage"></b> <span id="clearswbtn" class="swbtn">Clear cached data</span></li>
 		</ul>

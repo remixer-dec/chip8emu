@@ -1,12 +1,25 @@
 # Interactive chip8 emulator  
 This is an experimental project, created to learn how emulation works from inside.   
 It includes the emulator and some debugging tools like console and register view.  
-You can check the demo [here](https://remixer-dec.github.io/chip8emu).  
-![Screenshot](https://i.imgur.com/mcZqnSS.png)  
+You can check the demo [here](https://remixer-dec.github.io/chip8emu).
 To run this project, you have to use a modern browser.  
 
-**Technologies used in this project:**  
+![Screenshot](https://i.imgur.com/mcZqnSS.png)  
 
+# Mobile-friendly progressive web app with dark theme  
+![ScreenshotMobile](https://i.imgur.com/LN8U6Pw.gif)  
+
+**Features:**
+- [X] blinking reduction (configurable)  
+- [X] key binding  
+- [X] offline-mode & cache management  
+- [X] loadable screen & register states
+- [X] instructions are translated into human-readable language (in debug mode)
+
+**Emulator object**  
+Emulator and all it's components are available from ```window.emu``` object  
+
+**Technologies used in this project:**  
 JS ES6+ syntax:  
 - arrow functions + let variables  
 - imports / exports  
@@ -20,13 +33,9 @@ HTML/CSS syntax:
 - CSS Grid  
 
 **TODO:**  
-
- - [X] key bindings  
- - [ ] game specific keyboards  
- - [X] blinking reduction
  - [ ] WebGL renderer
  - [ ] make different UI's with frameworks  
- - [X] make this an offline PWA
+ - [ ] game specific keyboards / configs  
  - [ ] Gamepad support
 
 

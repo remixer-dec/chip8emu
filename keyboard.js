@@ -24,7 +24,7 @@ export var K = {
         K.pressed.delete(key)
     },
     init(C){
-        this.C = C;
+        Object.defineProperty(this, 'C', { value: C, enumerable: false});
         for(let btn of controls.children){
             btn.addEventListener('mousedown',K.keyPressEvent)
             btn.addEventListener('mouseup',K.keyReleaseEvent)
@@ -118,4 +118,3 @@ export var K = {
 window.addEventListener('keydown',K.keyboardInputListener);
 window.addEventListener('keyup',K.keyboardUpListener);
 keybindbtn.addEventListener('click',K.setKeyBindMode)
-window.K = K

@@ -2,7 +2,8 @@ import * as romLoader from './fileloader.js'
 import * as emulator from './emulator.js'
 import * as offline from './offline.js'
 window.RNG = () => Math.floor(Math.random() * 256)
-romselector.addEventListener('change', romLoader.loader)
+romselector.addEventListener('change', romLoader.load)
+romLoader.loadExternalData()
 romLoader.setOnloadCbk(()=>{
     emulator.emulate(romLoader.MEMORY)
 });

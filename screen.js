@@ -19,11 +19,11 @@ export var S = {
         escreen.addEventListener('dblclick',S.fullscreen)
     },
     init(HD,C){
+        Object.defineProperty(this, 'C', { value: C, enumerable: false});
         this.color1 = document.body.classList.contains('dark') ? '#283300' : '#FFF';
         this.color2 = document.body.classList.contains('dark') ? '#7B8637' : '#000';
         this.w = HD?640:64;
         this.h = HD?320:32;
-        this.C = C
         this.vfframe = 0
         this.skipped = 0
         escreen.width = this.w
@@ -83,8 +83,10 @@ export var S = {
             for(let j=0,jl=pxline.length;j<jl;j++){
                 let xc = x + xo
                 let i = yc *64 + xc
-                if(xc>=64||yc>=32){
-                    break;
+                if(this.C.slimit){
+                    if(xc>=64||yc>=32){
+                        break;
+                    }
                 }
                 let prevPX = S.pixels[i];
                 let anewPX = prevPX ^ pxline[j];

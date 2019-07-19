@@ -55,7 +55,18 @@ table td {
    width: 100%;
 }
 #registers p::after {
+   text-transform: uppercase;
    content: attr(v);
+}
+#registers p:hover::after {
+   cursor: pointer;
+   text-transform: uppercase;
+   content: attr(v16);
+}
+i#savecfg {
+    cursor: pointer;
+    position: absolute;
+    right: 0;
 }
 #rvI {
    width: 46px !important;
@@ -283,6 +294,14 @@ span.info:hover:after {
     #topframe:-moz-full-screen #escreen{width:120%}#topframe:-moz-full-screen #controls{width:80%;transform:translateX(25%)}
 }
 @media only screen and (max-width: 600px) {
+    i#savecfg {
+        position: relative;
+        width: 100%;
+        padding: 4px;
+        margin: 10px 0;
+        display: block;
+        text-align: center;
+    }
    #topframe {
        grid-template-columns: 1fr;
    }
@@ -436,6 +455,12 @@ body.dark {
     background: #181818;
     color: #fff6;
     box-shadow: 0px 2px 4px 1px rgba(0,0,0,.18);
+}
+.dark select[disabled] {
+    color: rgba(255,255,255,.02)
+}
+.dark #changelog a{
+    color:#fff;
 }
 #opwrapper,#registers {
      margin-top: 20px;

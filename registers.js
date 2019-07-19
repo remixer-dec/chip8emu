@@ -29,9 +29,13 @@ export var R = {
         let l = regState.length - 1;
         for(let el in regState){
             if(el != l){
-                window['rv'+el].setAttribute('v', regState[el]);
+                let r = 'rv'+el
+                window[r].setAttribute('v', regState[el]);
+                window[r].setAttribute('v16', regState[el].toString(16));
             } else{
-                rvI.setAttribute('v', "0x"+regState[16].toString(16).toUpperCase());
+                let ri = "0x"+regState[16].toString(16)
+                rvI.setAttribute('v', ri);
+                rvI.setAttribute('v16', ri);
             }
         }
     }
