@@ -1,5 +1,5 @@
 import * as romLoader from './fileloader.js'
-let prm = ['damode','exmode','dbgmode','opPerCycle','btnSticking','delay','renderer','gameover','regmode','blinkcfg','altImp','slimit']
+let prm = ['damode','exmode','dbgmode','opPerCycle','btnSticking','delay','renderer','gameover','regmode','antiblink','altImp','slimit']
 let cfg = ['damodecfg','exmodecfg','debugcfg','fpscfg','btnstcfg','delaycfg','rendercfg','gameovercfg','regcfg','blinkcfg','altimpcfg','scrlimitcfg']
 export var C = {
     init(){
